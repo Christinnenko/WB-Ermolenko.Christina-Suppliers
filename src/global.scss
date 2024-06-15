@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-light: #fff;
+  --color-transparent: rgba(255, 255, 255, 0.08);
+  --color-dark: #2d2c32;
+}
+
+@font-face {
+  font-family: "ALSHauss";
+  src: url("../public/fonts/ALSHauss-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ALSHauss Medium";
+  src: url("../public/fonts/ALSHauss-Medium.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "ALSHauss Light";
+  src: url("../public/fonts/ALSHauss-Light.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+// @font-face {
+//   font-family: "ALSHauss Bold";
+//   src: url("../public/fonts/ALSHauss-Bold.woff") format("woff");
+//   font-weight: normal;
+//   font-style: normal;
+// }
+
+body {
+  font-family: "ALSHauss", sans-serif;
+  letter-spacing: 0.2px;
+  background: var(--color-dark);
+  color: var(--color-light);
+}

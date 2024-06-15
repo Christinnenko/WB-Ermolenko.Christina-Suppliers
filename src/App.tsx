@@ -1,7 +1,12 @@
-import "./App.css";
+import "./global.scss";
+import SuppliersPage from "./pages/SuppliersPage/SuppliersPage";
 
 function App() {
-  return <div className="App"></div>;
+  return (
+    <>
+      <SuppliersPage />
+    </>
+  );
 }
 
 export default App;

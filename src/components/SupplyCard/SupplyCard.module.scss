@@ -1,0 +1,90 @@
+.supplyCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  &__titleItems {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+    margin: 0 0 12px 12px;
+  }
+
+  &__container {
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    background-color: var(--color-transparent);
+    border-radius: 14px;
+    gap: 16px;
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    width: 370px;
+    padding: 10px 8px 3px 7px;
+    gap: 13px;
+    flex-grow: 1;
+  }
+
+  &__storehouse {
+    width: 364px;
+    flex-grow: 1;
+  }
+
+  &__item {
+    padding: 6px 8px 0px 8px;
+  }
+
+  &__number {
+    width: 84px;
+  }
+
+  &__date {
+    width: 112px;
+  }
+
+  &__city {
+    width: 148px;
+    white-space: nowrap;
+  }
+
+  &__quantity {
+    width: 130px;
+  }
+
+  &__type {
+    width: 128px;
+  }
+
+  &__address {
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__statusContainer {
+    display: flex;
+    width: 112px;
+    font-size: 11px;
+  }
+
+  &__status {
+    width: 154px;
+
+    &_value {
+      color: #85ef89;
+      background-color: #14532b;
+      border-radius: 6px;
+      padding: 3px 5px 0px 5px;
+    }
+  }
+
+  &__editing {
+    background-color: transparent;
+    border: none;
+    margin: 10px 17px 8px 0px;
+  }
+}
