@@ -1,0 +1,53 @@
+.suppliersPage {
+  display: flex;
+
+  &__logo {
+    margin: 30px 18px;
+  }
+
+  &__container {
+    margin: 24px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  &__segments {
+    display: flex;
+    align-items: start;
+    margin-bottom: 25px;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+
+  &__title {
+    letter-spacing: 0.7px;
+    line-height: 48px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+  }
+
+  &__adding {
+    display: flex;
+    gap: 10px;
+    border-radius: 10px;
+    cursor: default;
+
+    &:hover {
+      background-color: var(--color-transparent);
+    }
+  }
+
+  &__addingImg {
+    width: 18px;
+    height: 18px;
+  }
+}
