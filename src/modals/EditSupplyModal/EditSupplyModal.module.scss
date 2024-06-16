@@ -1,0 +1,130 @@
+.editSupplyModal {
+  background-color: var(--color-dark);
+  width: 496px;
+  border-radius: 16px;
+  box-shadow: 0px 0px 26px rgba(0, 0, 0, 0.19);
+  display: flex;
+  flex-direction: column;
+
+  &__container {
+    padding: 0 48px 48px 48px;
+  }
+
+  &__closing {
+    text-align: right;
+    padding: 10px;
+  }
+
+  &__btnClose {
+    background-color: transparent;
+    border: none;
+    width: 24px;
+    height: 24px;
+    margin-bottom: 4px;
+  }
+
+  &__background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+
+  &__title {
+    font-size: 24px;
+    color: var(--color-light);
+    margin-bottom: 8px;
+    letter-spacing: 0.7px;
+  }
+
+  &__supplyNumber {
+    color: #767386;
+    margin-bottom: 30px;
+  }
+
+  &__formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 26px;
+  }
+
+  &__selectName {
+    font-size: 13px;
+    color: var(--color-light);
+    margin-left: 6px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__select {
+    outline: none;
+    appearance: none;
+    background: url("../../icons/arrow-vertical.svg") no-repeat;
+    background-position: right 16px center;
+    letter-spacing: 0.7px;
+    text-overflow: ellipsis;
+    border: none;
+    color: var(--color-light);
+    padding: 14px 16px 16px 16px;
+    border-radius: 10px;
+    background-color: var(--color-transparent);
+  }
+
+  &__inputContainer {
+    position: relative;
+    display: inline-block;
+  }
+
+  &__input {
+    position: relative;
+    outline: none;
+    padding: 14px 54px 14px 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    color: var(--color-light);
+    background-color: var(--color-transparent);
+    width: 100%;
+  }
+
+  &__inputSuffix {
+    position: absolute;
+    right: 16px;
+    top: 56%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: var(--color-light);
+  }
+
+  &__btns {
+    display: flex;
+    gap: 22px;
+  }
+
+  &__btnSave {
+    background-color: #4649e5;
+    color: var(--color-light);
+    border-radius: 10px;
+    border: none;
+    padding: 8px;
+    font-size: 16px;
+  }
+
+  &__btnCancel {
+    color: var(--color-light);
+    border: none;
+    background-color: inherit;
+    font-size: 16px;
+  }
+}
