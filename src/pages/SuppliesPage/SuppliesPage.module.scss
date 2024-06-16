@@ -32,13 +32,15 @@
   &__actions {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 24px;
   }
 
   &__adding {
     display: flex;
     gap: 10px;
     border-radius: 10px;
+    padding: 8px 8px 4px 8px;
+    margin-bottom: 4px;
     cursor: default;
 
     &:hover {
