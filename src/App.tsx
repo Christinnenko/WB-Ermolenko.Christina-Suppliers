@@ -1,10 +1,10 @@
 import "./global.scss";
-import SuppliersPage from "./pages/SuppliersPage/SuppliersPage";
+import SuppliesPage from "./pages/SuppliesPage/SuppliesPage";
 
 function App() {
   return (
     <>
-      <SuppliersPage />
+      <SuppliesPage />
     </>
   );
 }
