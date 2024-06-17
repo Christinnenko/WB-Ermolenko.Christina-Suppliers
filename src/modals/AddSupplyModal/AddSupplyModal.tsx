@@ -7,28 +7,33 @@ import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import { ru } from "date-fns/locale";
 import "../../global.scss";
-import { useAppDispatch } from "../../store/store";
-import { closeModal } from "../../store/features/modalSlice";
+import {
+  useGetCitiesQuery,
+  useGetStatusesQuery,
+  useGetSupplyTypesQuery,
+  useGetWarehousesQuery,
+} from "../../store/apiSlice";
+import { Link } from "react-router-dom";
 
 registerLocale("ru", ru);
 
 const AddSupplyModal: React.FC = () => {
-  const dispatch = useAppDispatch();
+  const { data: citiesData } = useGetCitiesQuery();
+  const { data: supplyTypesData } = useGetSupplyTypesQuery();
+  const { data: warehousesData } = useGetWarehousesQuery();
+  const { data: statusesData } = useGetStatusesQuery();
 
-  const handleClose = () => {
-    dispatch(closeModal());
-  };
+  if (!citiesData || !supplyTypesData || !warehousesData || !statusesData) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <div className={styles.editSupplyModal__background}>
       <div className={styles.editSupplyModal}>
         <div className={styles.editSupplyModal__closing}>
-          <button
-            className={styles.editSupplyModal__btnClose}
-            onClick={handleClose}
-          >
+          <Link to="/" className={styles.editSupplyModal__btnClose}>
             <img src={close} alt="Кнопка закрытия" />
-          </button>
+          </Link>
         </div>
         <div className={styles.editSupplyModal__container}>
           <h1 className={styles.editSupplyModal__title}>Новая поставка</h1>
@@ -62,8 +67,11 @@ const AddSupplyModal: React.FC = () => {
                 Город
               </label>
               <select id="city" className={styles.editSupplyModal__select}>
-                <option value="Москва">Москва</option>
-                <option value="Псков">Псков</option>
+                {citiesData.map((city) => (
+                  <option key={city.id} value={city.city}>
+                    {city.city}
+                  </option>
+                ))}
               </select>
             </div>
             <div className={styles.editSupplyModal__form}>
@@ -94,8 +102,11 @@ const AddSupplyModal: React.FC = () => {
                 id="supplyType"
                 className={styles.editSupplyModal__select}
               >
-                <option value="Короб">Короб</option>
-                <option value="Паллет">Паллет</option>
+                {supplyTypesData.map((type) => (
+                  <option key={type.id} value={type.supplyType}>
+                    {type.supplyType}
+                  </option>
+                ))}
               </select>
             </div>
             <div className={styles.editSupplyModal__form}>
@@ -105,9 +116,13 @@ const AddSupplyModal: React.FC = () => {
               >
                 Склад
               </label>
+
               <select id="warehouse" className={styles.editSupplyModal__select}>
-                <option value="Черная грязь">Черная грязь</option>
-                <option value="Склад 2">Склад 2</option>
+                {warehousesData.map((warehouse) => (
+                  <option key={warehouse.id} value={warehouse.name}>
+                    {warehouse.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className={styles.editSupplyModal__form}>
@@ -118,8 +133,11 @@ const AddSupplyModal: React.FC = () => {
                 Статус
               </label>
               <select id="status" className={styles.editSupplyModal__select}>
-                <option value="В пути">В пути</option>
-                <option value="На складе">На складе</option>
+                {statusesData.map((status) => (
+                  <option key={status.id} value={status.status}>
+                    {status.status}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

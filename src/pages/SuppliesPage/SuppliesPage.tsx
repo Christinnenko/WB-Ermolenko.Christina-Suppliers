@@ -5,18 +5,9 @@ import styles from "./SuppliesPage.module.scss";
 import Segments from "../../components/Segments/Segments";
 import Search from "../../components/Search/Search";
 import SupplyCard from "../../components/SupplyCard/SupplyCard";
-import { useAppDispatch, useAppSelector } from "../../store/store";
-import AddSupplyModal from "../../modals/AddSupplyModal/AddSupplyModal";
-import { openModal } from "../../store/features/modalSlice";
+import { Link, Outlet } from "react-router-dom";
 
 const SuppliesPage: React.FC = () => {
-  const dispatch = useAppDispatch();
-  const showModal = useAppSelector((state) => state.modal.showModal);
-
-  const handleAddSupplyClick = () => {
-    dispatch(openModal({ modalType: "add" }));
-  };
-
   return (
     <div className={styles.suppliesPage}>
       <div>
@@ -29,9 +20,9 @@ const SuppliesPage: React.FC = () => {
         <div className={styles.suppliesPage__content}>
           <h1 className={styles.suppliesPage__title}>Поставки</h1>
           <div className={styles.suppliesPage__actions}>
-            <div
+            <Link
+              to="/modal/add-supply"
               className={styles.suppliesPage__adding}
-              onClick={handleAddSupplyClick}
             >
               <img
                 src={plus}
@@ -39,13 +30,13 @@ const SuppliesPage: React.FC = () => {
                 className={styles.suppliesPage__addingImg}
               />
               <p>Добавить поставку</p>
-            </div>
+            </Link>
             <Search />
           </div>
         </div>
         <SupplyCard />
       </div>
-      {showModal && <AddSupplyModal />}
+      <Outlet />
     </div>
   );
 };
