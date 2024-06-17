@@ -1,8 +1,12 @@
 import React from "react";
 import styles from "./SupplyCard.module.scss";
 import editing from "../../../src/icons/editing.svg";
+import { openModal, setSelectedSupply } from "../../store/features/modalSlice";
+import EditSupplyModal from "../../modals/EditSupplyModal/EditSupplyModal";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { Supply } from "../types/supply";
 
-const supplies = [
+const supplies: Supply[] = [
   {
     number: "154814",
     date: "28.06.2024",
@@ -108,6 +112,19 @@ const supplies = [
 ];
 
 const SupplyCard: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const showModal = useAppSelector((state) => state.modal.showModal);
+
+  const handleEditSupplyClick = (supplyId: string) => {
+    const selectedSupply = supplies.find(
+      (supply) => supply.number === supplyId
+    );
+    if (selectedSupply) {
+      dispatch(setSelectedSupply(selectedSupply));
+      dispatch(openModal({ modalType: "edit" }));
+    }
+  };
+
   return (
     <>
       <div className={styles.supplyCard__titleItems}>
@@ -158,12 +175,16 @@ const SupplyCard: React.FC = () => {
                 {item.status}
               </p>
             </div>
-            <button className={styles.supplyCard__editing}>
+            <button
+              className={styles.supplyCard__editing}
+              onClick={() => handleEditSupplyClick(item.number)}
+            >
               <img src={editing} alt="Редактировать" />
             </button>
           </div>
         ))}
       </div>
+      {showModal && <EditSupplyModal />}
     </>
   );
 };

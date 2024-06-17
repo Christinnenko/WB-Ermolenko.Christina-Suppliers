@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./AddSupplyModal.module.scss";
 import close from "../../../src/icons/close.svg";
 import calendar from "../../../src/icons/calendar.svg";
@@ -7,21 +7,26 @@ import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import { ru } from "date-fns/locale";
 import "../../global.scss";
+import { useAppDispatch } from "../../store/store";
+import { closeModal } from "../../store/features/modalSlice";
 
 registerLocale("ru", ru);
 
 const AddSupplyModal: React.FC = () => {
-  // const [date, setDate] = useState<Date | null>(null);
+  const dispatch = useAppDispatch();
 
-  // const handleDateChange = (date: Date | null) => {
-  //   setDate(date);
-  // };
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
 
   return (
     <div className={styles.editSupplyModal__background}>
       <div className={styles.editSupplyModal}>
         <div className={styles.editSupplyModal__closing}>
-          <button className={styles.editSupplyModal__btnClose}>
+          <button
+            className={styles.editSupplyModal__btnClose}
+            onClick={handleClose}
+          >
             <img src={close} alt="Кнопка закрытия" />
           </button>
         </div>

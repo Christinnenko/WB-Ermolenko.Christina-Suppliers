@@ -1,13 +1,24 @@
 import React from "react";
 import styles from "./EditSupplyModal.module.scss";
 import close from "../../../src/icons/close.svg";
+import { useAppDispatch } from "../../store/store";
+import { closeModal } from "../../store/features/modalSlice";
 
 const EditSupplyModal: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
+
   return (
     <div className={styles.editSupplyModal__background}>
       <div className={styles.editSupplyModal}>
         <div className={styles.editSupplyModal__closing}>
-          <button className={styles.editSupplyModal__btnClose}>
+          <button
+            className={styles.editSupplyModal__btnClose}
+            onClick={handleClose}
+          >
             <img src={close} alt="Кнопка закрытия" />
           </button>
         </div>
