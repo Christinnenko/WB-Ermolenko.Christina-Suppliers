@@ -66,7 +66,7 @@ const SupplyCard: React.FC = () => {
               </p>
             </div>
             <Link
-              to="/modal/edit-supply/{supplyData.supply.id}"
+              to={`/modal/edit-supply/${supply.id}`}
               className={styles.supplyCard__editing}
             >
               <img src={editing} alt="Редактировать" />

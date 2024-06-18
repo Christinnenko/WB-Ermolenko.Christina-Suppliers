@@ -1,0 +1,101 @@
+.supplyCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.supplyCard__titleItems {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  margin: 0 0 12px 12px;
+}
+.supplyCard__container {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  background-color: var(--color-transparent);
+  border-radius: 14px;
+  gap: 16px;
+}
+.supplyCard__container:hover {
+  background-color: rgba(255, 255, 255, 0.24);
+}
+.supplyCard__items {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 8px 3px 7px;
+  gap: 13px;
+  flex-grow: 1;
+}
+.supplyCard__warehouse {
+  flex-grow: 1;
+}
+.supplyCard__item {
+  padding: 6px 8px 0px 8px;
+}
+.supplyCard__city, .supplyCard__type, .supplyCard__warehouse, .supplyCard__address, .supplyCard__statusContainer, .supplyCard__status_value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.supplyCard__date, .supplyCard__number, .supplyCard__quantity {
+  word-break: break-all;
+}
+.supplyCard__number {
+  width: 84px;
+}
+.supplyCard__date {
+  width: 112px;
+}
+.supplyCard__city {
+  width: 148px;
+  white-space: nowrap;
+}
+.supplyCard__quantity {
+  width: 130px;
+}
+.supplyCard__type {
+  width: 128px;
+}
+.supplyCard__address {
+  font-size: 13px;
+}
+.supplyCard__statusContainer {
+  display: flex;
+  width: 100px;
+  font-size: 11px;
+}
+.supplyCard__status {
+  width: 154px;
+}
+.supplyCard__status_value {
+  color: #85ef89;
+  background-color: #14532b;
+  border-radius: 6px;
+  padding-top: 3px;
+}
+.supplyCard__editing {
+  background-color: transparent;
+  border: none;
+  margin: 6px 0px 7px 0px;
+  border-radius: 10px;
+  padding: 11px 16px 7px 16px;
+}
+.supplyCard__editing:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+@media (min-width: 768px) and (max-width: 1365px) {
+  .supplyCard__date, .supplyCard__number, .supplyCard__quantity, .supplyCard__titleItems {
+    font-size: 11px;
+  }
+  .supplyCard__warehouse {
+    width: 104px;
+  }
+  .supplyCard__date {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}/*# sourceMappingURL=SupplyCard.module.css.map */
