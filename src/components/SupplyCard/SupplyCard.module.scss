@@ -24,21 +24,37 @@
   }
 
   &__items {
+    width: 100px;
     display: flex;
     flex-direction: column;
-    width: 370px;
     padding: 10px 8px 3px 7px;
     gap: 13px;
     flex-grow: 1;
   }
 
-  &__storehouse {
-    width: 364px;
+  &__warehouse {
     flex-grow: 1;
   }
 
   &__item {
     padding: 6px 8px 0px 8px;
+  }
+
+  &__city,
+  &__type,
+  &__warehouse,
+  &__address,
+  &__statusContainer,
+  &__status_value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__date,
+  &__number,
+  &__quantity {
+    word-break: break-all;
   }
 
   &__number {
@@ -64,9 +80,6 @@
 
   &__address {
     font-size: 13px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   &__statusContainer {
@@ -95,6 +108,27 @@
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.08);
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1365px) {
+  .supplyCard {
+    &__date,
+    &__number,
+    &__quantity,
+    &__titleItems {
+      font-size: 11px;
+    }
+
+    &__warehouse {
+      width: 104px;
+    }
+
+    &__date {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }

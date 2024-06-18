@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./SupplyCard.module.scss";
 import editing from "../../../src/icons/editing.svg";
 import { useGetSuppliesQuery } from "../../store/apiSlice";
+import { Link } from "react-router-dom";
 
 const SupplyCard: React.FC = () => {
   const { data: supplyData } = useGetSuppliesQuery();
@@ -18,7 +19,7 @@ const SupplyCard: React.FC = () => {
         <div className={styles.supplyCard__city}>Город</div>
         <div className={styles.supplyCard__quantity}>Количество</div>
         <div className={styles.supplyCard__type}>Тип поставки</div>
-        <div className={styles.supplyCard__storehouse}>Склад</div>
+        <div className={styles.supplyCard__warehouse}>Склад</div>
         <div className={styles.supplyCard__status}>Статус</div>
       </div>
       <div className={styles.supplyCard}>
@@ -42,7 +43,7 @@ const SupplyCard: React.FC = () => {
             <p
               className={`${styles.supplyCard__item} ${styles.supplyCard__quantity}`}
             >
-              {supply.quantity}
+              {supply.quantity} <span>шт.</span>
             </p>
             <p
               className={`${styles.supplyCard__item} ${styles.supplyCard__type}`}
@@ -50,7 +51,9 @@ const SupplyCard: React.FC = () => {
               {supply.type}
             </p>
             <div className={styles.supplyCard__items}>
-              <p>{supply.warehouse.name}</p>
+              <p className={styles.supplyCard__warehouse}>
+                {supply.warehouse.name}
+              </p>
               <p className={styles.supplyCard__address}>
                 {supply.warehouse.address}
               </p>
@@ -62,9 +65,12 @@ const SupplyCard: React.FC = () => {
                 {supply.status}
               </p>
             </div>
-            <button className={styles.supplyCard__editing}>
+            <Link
+              to="/modal/edit-supply/{supplyData.supply.id}"
+              className={styles.supplyCard__editing}
+            >
               <img src={editing} alt="Редактировать" />
-            </button>
+            </Link>
           </div>
         ))}
       </div>
