@@ -1,4 +1,4 @@
-.editSupplyModal {
+.addSupplyModal {
   background-color: var(--color-dark);
   width: 496px;
   border-radius: 16px;
@@ -125,6 +125,12 @@
     width: 100%;
   }
 
+  &__input[type="number"]::-webkit-outer-spin-button,
+  &__input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   &__inputSuffix {
     top: 56%;
   }
@@ -148,5 +154,9 @@
     border: none;
     background-color: inherit;
     font-size: 16px;
+  }
+
+  &__inputError {
+    box-shadow: 0 0 0 1px #7c3d12;
   }
 }

@@ -26,6 +26,26 @@ export const apiSlice = createApi({
     getSupplies: builder.query<Supply[], void>({
       query: () => "/api/supplies",
     }),
+    addSupply: builder.mutation<void, Supply>({
+      query: (newSupply) => ({
+        url: "/api/supplies",
+        method: "POST",
+        body: newSupply,
+      }),
+    }),
+    updateSupply: builder.mutation<void, { id: string; supply: Supply }>({
+      query: ({ id, supply }) => ({
+        url: `/api/supplies/${id}`,
+        method: "PUT",
+        body: supply,
+      }),
+    }),
+    deleteSupply: builder.mutation<void, string>({
+      query: (supplyId) => ({
+        url: `/api/supplies/${supplyId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -35,4 +55,7 @@ export const {
   useGetSupplyTypesQuery,
   useGetWarehousesQuery,
   useGetSuppliesQuery,
+  useAddSupplyMutation,
+  useUpdateSupplyMutation,
+  useDeleteSupplyMutation,
 } = apiSlice;

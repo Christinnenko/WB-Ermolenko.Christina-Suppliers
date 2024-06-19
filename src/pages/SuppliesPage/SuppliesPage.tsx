@@ -23,7 +23,7 @@ const SuppliesPage: React.FC = () => {
           <h1 className={styles.suppliesPage__title}>Поставки</h1>
           <div className={styles.suppliesPage__actions}>
             <Link
-              to="/modal/add-supply"
+              to="/modal/add-supply/"
               className={styles.suppliesPage__adding}
             >
               <img

@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
+const crypto = require("crypto");
 
 const app = express();
 const port = 5001;
@@ -91,6 +92,82 @@ app.get("/api/supplies", (req, res) => {
     res.status(500).json({ error: "Failed to read supplies" });
   }
 });
+
+// Маршрут для добавления новой поставки
+app.post("/api/supplies", (req, res) => {
+  try {
+    const supplies = getDataFromFile("supplies.json");
+    const uniqId = crypto.randomUUID();
+    const newSupply = { ...req.body, id: uniqId };
+    supplies.push(newSupply);
+    saveSuppliesToFile(supplies);
+    res.json({ message: "Supply added successfully", supply: newSupply });
+  } catch (err) {
+    console.error("Error adding supply:", err);
+    res.status(500).json({ error: "Failed to add supply" });
+  }
+});
+
+// Маршрут для редактирования поставки
+app.put("/api/supplies/:id", (req, res) => {
+  try {
+    const supplyId = req.params.id;
+    const supplies = getDataFromFile("supplies.json");
+    const index = supplies.findIndex((supply) => supply.id === supplyId);
+
+    if (index !== -1) {
+      const currentSupply = supplies[index];
+
+      const updatedSupply = {
+        ...currentSupply,
+        ...req.body,
+        id: currentSupply.id,
+      };
+
+      supplies[index] = updatedSupply;
+      saveSuppliesToFile(supplies);
+
+      res.json({
+        message: `Supply with ID ${supplyId} updated successfully`,
+        updatedSupply,
+      });
+    } else {
+      res.status(404).json({ error: `Supply with ID ${supplyId} not found` });
+    }
+  } catch (err) {
+    console.error("Error updating supply:", err);
+    res.status(500).json({ error: "Failed to update supply" });
+  }
+});
+
+// Маршрут для удаления поставки
+app.delete("/api/supplies/:id", (req, res) => {
+  try {
+    const supplyId = req.params.id;
+    const supplies = getDataFromFile("supplies.json");
+    const index = supplies.findIndex((supply) => supply.id === supplyId);
+    if (index !== -1) {
+      supplies.splice(index, 1);
+      saveSuppliesToFile(supplies);
+      res.json({ message: `Supply with ID ${supplyId} deleted successfully` });
+    } else {
+      res.status(404).json({ error: `Supply with ID ${supplyId} not found` });
+    }
+  } catch (err) {
+    console.error("Error deleting supply:", err);
+    res.status(500).json({ error: "Failed to delete supply" });
+  }
+});
+
+// Функция для сохранения данных о поставках в файл
+function saveSuppliesToFile(supplies) {
+  const filePath = path.join(dataDir, "supplies.json");
+  fs.writeFile(filePath, JSON.stringify(supplies, null, 2), (err) => {
+    if (err) {
+      console.error("Error saving supplies to file:", err);
+    }
+  });
+}
 
 // Запуск сервера
 app.listen(port, () => {

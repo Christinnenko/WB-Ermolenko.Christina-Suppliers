@@ -43,6 +43,8 @@ body {
   letter-spacing: 0.2px;
   background: var(--color-dark);
   color: var(--color-light);
+  overflow: auto;
+  height: 100%;
 }
 
 //стилизация календаря модального окна AddSupplyModal

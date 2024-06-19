@@ -70,10 +70,18 @@
   width: 154px;
 }
 .supplyCard__status_value {
-  color: #85ef89;
-  background-color: #14532b;
+  color: var(--color-dark);
+  background-color: var(--color-light);
   border-radius: 6px;
   padding-top: 3px;
+}
+.supplyCard__status_value--inTransit {
+  background-color: #14532b;
+  color: #85ef89;
+}
+.supplyCard__status_value--delayed {
+  background-color: #7c3d12;
+  color: #fdb172;
 }
 .supplyCard__editing {
   background-color: transparent;
@@ -84,6 +92,13 @@
 }
 .supplyCard__editing:hover {
   background-color: rgba(255, 255, 255, 0.08);
+}
+.supplyCard__noSuppliesMessage {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @media (min-width: 768px) and (max-width: 1365px) {

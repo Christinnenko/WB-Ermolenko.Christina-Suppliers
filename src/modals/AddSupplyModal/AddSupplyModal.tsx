@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./AddSupplyModal.module.scss";
 import close from "../../../src/icons/close.svg";
 import calendar from "../../../src/icons/calendar.svg";
@@ -6,67 +6,255 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale } from "react-datepicker";
 import { ru } from "date-fns/locale";
-import "../../global.scss";
 import {
+  useAddSupplyMutation,
   useGetCitiesQuery,
   useGetStatusesQuery,
+  useGetSuppliesQuery,
   useGetSupplyTypesQuery,
   useGetWarehousesQuery,
 } from "../../store/apiSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Supply } from "../../store/interfaces";
+import { addSupply } from "../../store/features/suppliesSlice";
+import { useDispatch } from "react-redux";
 
+//русский язык для календаря
 registerLocale("ru", ru);
 
 const AddSupplyModal: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
   const { data: citiesData } = useGetCitiesQuery();
   const { data: supplyTypesData } = useGetSupplyTypesQuery();
   const { data: warehousesData } = useGetWarehousesQuery();
   const { data: statusesData } = useGetStatusesQuery();
+  const { data: suppliesData, refetch: refetchSupplies } =
+    useGetSuppliesQuery();
+  const [addSupplyMutation] = useAddSupplyMutation();
 
-  if (!citiesData || !supplyTypesData || !warehousesData || !statusesData) {
-    return <h1>Loading...</h1>;
+  const [formData, setFormData] = useState<Supply>({
+    id: "",
+    number: "",
+    date: "",
+    city: "",
+    quantity: 0,
+    type: "",
+    warehouse: {
+      name: "",
+      address: "",
+    },
+    status: "",
+  });
+
+  const [errorsField, setErrorsField] = useState<{
+    quantity: boolean;
+    date: boolean;
+  }>({
+    quantity: false,
+    date: false,
+  });
+
+  //для обновления поставок (необходимо для корректной генерации номера поставки)
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  //генерация номера поставки, добавление номера и дефолтных значений Select в новую поставку
+  useEffect(() => {
+    if (
+      !isInitialized &&
+      suppliesData &&
+      suppliesData.length > 0 &&
+      citiesData &&
+      supplyTypesData &&
+      warehousesData &&
+      statusesData
+    ) {
+      const lastSupply = suppliesData[suppliesData.length - 1];
+      const newNumber = (parseInt(lastSupply.number, 10) + 1).toString();
+
+      const defaultWarehouse = warehousesData[0].address;
+
+      setFormData((prevData) => ({
+        ...prevData,
+        number: newNumber.toString(),
+        city: citiesData[0].city,
+        type: supplyTypesData[0].supplyType,
+        warehouse: {
+          name: warehousesData[0].name,
+          address: defaultWarehouse,
+        },
+        status: statusesData[0].status,
+      }));
+
+      setIsInitialized(true);
+    }
+  }, [
+    suppliesData,
+    citiesData,
+    supplyTypesData,
+    warehousesData,
+    statusesData,
+    isInitialized,
+  ]);
+
+  if (
+    !citiesData ||
+    !supplyTypesData ||
+    !warehousesData ||
+    !statusesData ||
+    !suppliesData
+  ) {
+    return <h1>Загрузка...</h1>;
   }
 
+  const closeModal = () => {
+    refetchSupplies(); //для формирования номера поставки
+    navigate("/");
+  };
+
+  //добавление введенных данных из инпута и выбранных селектов в новую поставку
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    e.preventDefault();
+
+    const { id, value } = e.target;
+
+    if (id === "quantity") {
+      const quantity = value === "" ? 0 : parseInt(value, 10);
+
+      if (!isNaN(quantity)) {
+        setFormData((prevData) => ({
+          ...prevData,
+          quantity: quantity,
+        }));
+        setErrorsField((prevErrors) => ({
+          ...prevErrors,
+          quantity: false,
+        }));
+      }
+    } else if (id === "warehouseName" && warehousesData) {
+      const selectedWarehouse = warehousesData.find(
+        (warehouse) => warehouse.name === value
+      );
+
+      const address = selectedWarehouse ? selectedWarehouse.address : "";
+      setFormData((prevData) => ({
+        ...prevData,
+        warehouse: {
+          name: value,
+          address: address,
+        },
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [id]: value,
+      }));
+    }
+  };
+
+  //установка даты в форму и добавление даты в новую поставку
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+    setFormData((prevData) => ({
+      ...prevData,
+      date: date ? date.toLocaleDateString("ru") : "",
+    }));
+    setErrorsField((prevErrors) => ({
+      ...prevErrors,
+      date: false,
+    }));
+  };
+
+  const handleSubmitAddSupply = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const isQuantityValid = formData.quantity > 0;
+    const isDateValid = formData.date !== "";
+
+    if (!isQuantityValid || !isDateValid) {
+      setErrorsField({
+        quantity: !isQuantityValid,
+        date: !isDateValid,
+      });
+      return;
+    }
+
+    try {
+      const response = await addSupplyMutation(formData);
+      if ("data" in response) {
+        const data = response.data as any;
+        if (data) {
+          dispatch(addSupply(data.supply));
+        }
+      }
+      closeModal();
+    } catch (error) {
+      console.error("Не удалось добавить поставку:", error);
+    }
+  };
+
   return (
-    <div className={styles.editSupplyModal__background}>
-      <div className={styles.editSupplyModal}>
-        <div className={styles.editSupplyModal__closing}>
-          <Link to="/" className={styles.editSupplyModal__btnClose}>
+    <div className={styles.addSupplyModal__background}>
+      <div className={styles.addSupplyModal}>
+        <div className={styles.addSupplyModal__closing}>
+          <Link to="/" className={styles.addSupplyModal__btnClose}>
             <img src={close} alt="Кнопка закрытия" />
           </Link>
         </div>
-        <div className={styles.editSupplyModal__container}>
-          <h1 className={styles.editSupplyModal__title}>Новая поставка</h1>
-          <p className={styles.editSupplyModal__supplyNumber}>&#35;02387</p>
-          <div className={styles.editSupplyModal__formGroup}>
-            <div className={styles.editSupplyModal__form}>
+        <form
+          onSubmit={handleSubmitAddSupply}
+          className={styles.addSupplyModal__container}
+        >
+          <h1 className={styles.addSupplyModal__title}>Новая поставка</h1>
+          <p className={styles.addSupplyModal__supplyNumber}>
+            &#35;{formData.number}
+          </p>
+          <div className={styles.addSupplyModal__formGroup}>
+            <div className={styles.addSupplyModal__form}>
               <label
-                className={styles.editSupplyModal__selectName}
-                htmlFor="Дата поставки"
+                className={styles.addSupplyModal__selectName}
+                htmlFor="date"
               >
                 Дата поставки
               </label>
-              <div className={styles.editSupplyModal__inputContainer}>
+              <div className={styles.addSupplyModal__inputContainer}>
                 <DatePicker
+                  id="date"
+                  selected={selectedDate}
+                  onChange={handleDateChange}
                   dateFormat="dd.MM.yyyy"
                   placeholderText="__.__.____"
                   locale="ru"
-                  showPopperArrow={true}
-                  className={`${styles.editSupplyModal__input} ${styles.editSupplyModal__inputDate}`}
+                  autoComplete="off"
+                  className={`${styles.addSupplyModal__input} ${
+                    errorsField.date ? styles.addSupplyModal__inputError : ""
+                  } ${styles.addSupplyModal__inputDate}`}
                 />
-                <button className={styles.editSupplyModal__calendarBtn}>
+                <button
+                  type="button"
+                  className={styles.addSupplyModal__calendarBtn}
+                >
                   <img src={calendar} alt="Открыть календарь" />
                 </button>
               </div>
             </div>
-            <div className={styles.editSupplyModal__form}>
+            <div className={styles.addSupplyModal__form}>
               <label
-                className={styles.editSupplyModal__selectName}
-                htmlFor="Город"
+                className={styles.addSupplyModal__selectName}
+                htmlFor="city"
               >
                 Город
               </label>
-              <select id="city" className={styles.editSupplyModal__select}>
+              <select
+                id="city"
+                className={styles.addSupplyModal__select}
+                onChange={handleInputChange}
+                value={formData.city}
+              >
                 {citiesData.map((city) => (
                   <option key={city.id} value={city.city}>
                     {city.city}
@@ -74,33 +262,41 @@ const AddSupplyModal: React.FC = () => {
                 ))}
               </select>
             </div>
-            <div className={styles.editSupplyModal__form}>
+            <div className={styles.addSupplyModal__form}>
               <label
-                className={styles.editSupplyModal__selectName}
-                htmlFor="Количество"
+                className={styles.addSupplyModal__selectName}
+                htmlFor="quantity"
               >
                 Количество
               </label>
-              <div className={styles.editSupplyModal__inputContainer}>
+              <div className={styles.addSupplyModal__inputContainer}>
                 <input
-                  type="text"
-                  autoComplete="off"
                   id="quantity"
-                  className={styles.editSupplyModal__input}
+                  type="number"
+                  autoComplete="off"
+                  onChange={handleInputChange}
+                  value={formData.quantity.toString()}
+                  className={`${styles.addSupplyModal__input} ${
+                    errorsField.quantity
+                      ? styles.addSupplyModal__inputError
+                      : ""
+                  }`}
                 />
-                <span className={styles.editSupplyModal__inputSuffix}>шт.</span>
+                <span className={styles.addSupplyModal__inputSuffix}>шт.</span>
               </div>
             </div>
-            <div className={styles.editSupplyModal__form}>
+            <div className={styles.addSupplyModal__form}>
               <label
-                className={styles.editSupplyModal__selectName}
-                htmlFor="supplyType"
+                className={styles.addSupplyModal__selectName}
+                htmlFor="type"
               >
                 Тип поставки
               </label>
               <select
-                id="supplyType"
-                className={styles.editSupplyModal__select}
+                id="type"
+                className={styles.addSupplyModal__select}
+                onChange={handleInputChange}
+                value={formData.type}
               >
                 {supplyTypesData.map((type) => (
                   <option key={type.id} value={type.supplyType}>
@@ -109,15 +305,19 @@ const AddSupplyModal: React.FC = () => {
                 ))}
               </select>
             </div>
-            <div className={styles.editSupplyModal__form}>
+            <div className={styles.addSupplyModal__form}>
               <label
-                className={styles.editSupplyModal__selectName}
-                htmlFor="Склад"
+                className={styles.addSupplyModal__selectName}
+                htmlFor="warehouseName"
               >
                 Склад
               </label>
-
-              <select id="warehouse" className={styles.editSupplyModal__select}>
+              <select
+                id="warehouseName"
+                className={styles.addSupplyModal__select}
+                onChange={handleInputChange}
+                value={formData.warehouse.name}
+              >
                 {warehousesData.map((warehouse) => (
                   <option key={warehouse.id} value={warehouse.name}>
                     {warehouse.name}
@@ -125,14 +325,19 @@ const AddSupplyModal: React.FC = () => {
                 ))}
               </select>
             </div>
-            <div className={styles.editSupplyModal__form}>
+            <div className={styles.addSupplyModal__form}>
               <label
-                className={styles.editSupplyModal__selectName}
-                htmlFor="Статус"
+                className={styles.addSupplyModal__selectName}
+                htmlFor="status"
               >
                 Статус
               </label>
-              <select id="status" className={styles.editSupplyModal__select}>
+              <select
+                id="status"
+                className={styles.addSupplyModal__select}
+                onChange={handleInputChange}
+                value={formData.status}
+              >
                 {statusesData.map((status) => (
                   <option key={status.id} value={status.status}>
                     {status.status}
@@ -141,13 +346,19 @@ const AddSupplyModal: React.FC = () => {
               </select>
             </div>
           </div>
-          <div className={styles.editSupplyModal__btns}>
-            <button className={styles.editSupplyModal__btnSave}>Создать</button>
-            <button className={styles.editSupplyModal__btnCancel}>
+          <div className={styles.addSupplyModal__btns}>
+            <button type="submit" className={styles.addSupplyModal__btnSave}>
+              Создать
+            </button>
+            <button
+              type="button"
+              onClick={closeModal}
+              className={styles.addSupplyModal__btnCancel}
+            >
               Отменить
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ export interface WarehouseSupply {
 }
 
 export interface Supply {
-  id: number;
+  id: string;
   number: string;
   date: string;
   city: string;
