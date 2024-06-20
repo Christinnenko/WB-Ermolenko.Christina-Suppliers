@@ -3,10 +3,16 @@ import { Supply } from "../interfaces";
 
 interface SuppliesState {
   supplies: Supply[];
+  currentPage: number;
+  itemsPerPage: number;
+  filteredSupplies: Supply[];
 }
 
 const initialState: SuppliesState = {
   supplies: [],
+  currentPage: 0,
+  itemsPerPage: 10,
+  filteredSupplies: [],
 };
 
 const suppliesSlice = createSlice({
@@ -15,6 +21,10 @@ const suppliesSlice = createSlice({
   reducers: {
     setSupplies(state, action: PayloadAction<Supply[]>) {
       state.supplies = action.payload;
+      state.filteredSupplies = action.payload;
+    },
+    setFilteredSupplies: (state, action: PayloadAction<Supply[]>) => {
+      state.filteredSupplies = action.payload;
     },
     addSupply(state, action: PayloadAction<Supply>) {
       state.supplies.push(action.payload);
@@ -34,10 +44,23 @@ const suppliesSlice = createSlice({
         (supply) => supply.id !== supplyIdToDelete
       );
     },
+    setCurrentPage(state, action: PayloadAction<number>) {
+      state.currentPage = action.payload;
+    },
+    setItemsPerPage(state, action: PayloadAction<number>) {
+      state.itemsPerPage = action.payload;
+    },
   },
 });
 
-export const { setSupplies, addSupply, updateSupply, deleteSupply } =
-  suppliesSlice.actions;
+export const {
+  setSupplies,
+  setFilteredSupplies,
+  addSupply,
+  updateSupply,
+  deleteSupply,
+  setCurrentPage,
+  setItemsPerPage,
+} = suppliesSlice.actions;
 
 export const suppliesReducer = suppliesSlice.reducer;

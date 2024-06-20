@@ -7,7 +7,7 @@ export interface SearchState {
 }
 
 const initialState: SearchState = {
-  type: "по номеру",
+  type: "По номеру",
   input: "",
 };
 

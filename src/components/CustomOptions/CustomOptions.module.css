@@ -1,0 +1,31 @@
+.сustomOptions {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  background-color: #fff;
+  color: #000;
+  border-radius: 8px;
+  margin-top: 13px;
+  margin-left: -6px;
+}
+
+.сustomOptions__option {
+  padding: 12px;
+  list-style-type: none;
+  letter-spacing: normal;
+  width: 192px;
+}
+
+.сustomOptions__option:hover {
+  background-color: #f0f0f3;
+}
+
+.сustomOptions__option:hover:first-child {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.сustomOptions__option:hover:last-child {
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}

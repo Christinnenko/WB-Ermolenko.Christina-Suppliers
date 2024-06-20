@@ -5,11 +5,25 @@
   padding: 2px;
   background-color: var(--color-transparent);
 }
+
 .nav__item {
   border-radius: 10px;
-  padding: 11px 9px 4px 8px;
+  padding: 10px 9px 4px 8px;
   cursor: default;
 }
+
 .nav__item:hover {
   background-color: var(--color-transparent);
-}/*# sourceMappingURL=Segments.module.css.map */
+}
+
+.active,
+.active:hover {
+  background-color: var(--color-light);
+  color: var(--color-dark);
+}
+
+@media (min-width: 375px) and (max-width: 767px) {
+  .nav {
+    display: none;
+  }
+}

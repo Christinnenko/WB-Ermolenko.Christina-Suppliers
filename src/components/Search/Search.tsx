@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "./Search.module.scss";
+import React, { useState } from "react";
+import styles from "./Search.module.css";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
@@ -8,44 +8,44 @@ import {
   selectSearchType,
   selectSearchInput,
 } from "../../store/features/searchSlice";
+import CustomOptions from "../CustomOptions/CustomOptions";
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
   const typeSearch = useSelector(selectSearchType);
   const inputSearch = useSelector(selectSearchInput);
 
-  const onChangeType = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(setSearchType(e.target.value));
-  };
+  const [isOpen, setIsOpen] = useState(false);
 
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchInput(e.target.value));
+    const filterValue = e.target.value;
+    dispatch(setSearchInput(filterValue));
   };
+
+  const handleOptionChange = (value: string) => {
+    dispatch(setSearchType(value));
+    setIsOpen(false);
+  };
+
+  const options = [
+    { value: "По номеру", label: "По номеру" },
+    { value: "По городу", label: "По городу" },
+    { value: "По типу поставки", label: "По типу поставки" },
+    { value: "По статусу", label: "По статусу" },
+  ];
 
   return (
     <div className={styles.search}>
       <div className={styles.search__selectWrapper}>
-        <select
-          onChange={onChangeType}
+        <div
           className={styles.search__select}
-          value={typeSearch}
+          onClick={() => setIsOpen(!isOpen)}
         >
-          <option value="по номеру" className={styles.search__selectOption}>
-            По номеру
-          </option>
-          <option value="по городу" className={styles.search__selectOption}>
-            По городу
-          </option>
-          <option
-            value="по типу поставки"
-            className={styles.search__selectOption}
-          >
-            По типу поставки
-          </option>
-          <option value="по статусу" className={styles.search__selectOption}>
-            По статусу
-          </option>
-        </select>
+          <div className={styles.search__selectType}>{typeSearch}</div>
+          {isOpen && (
+            <CustomOptions options={options} onChange={handleOptionChange} />
+          )}
+        </div>
       </div>
       <div className={styles.search__inputWrapper}>
         <input

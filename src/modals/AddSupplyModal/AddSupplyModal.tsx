@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./AddSupplyModal.module.scss";
+import styles from "./AddSupplyModal.module.css";
 import close from "../../../src/icons/close.svg";
 import calendar from "../../../src/icons/calendar.svg";
 import DatePicker from "react-datepicker";
@@ -90,6 +90,12 @@ const AddSupplyModal: React.FC = () => {
 
       setIsInitialized(true);
     }
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [
     suppliesData,
     citiesData,

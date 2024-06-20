@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import styles from "./EditSupplyModal.module.css";
 import {
   useGetCitiesQuery,
   useGetStatusesQuery,
@@ -8,7 +9,6 @@ import {
   useGetWarehousesQuery,
   useUpdateSupplyMutation,
 } from "../../store/apiSlice";
-import styles from "./EditSupplyModal.module.scss";
 import close from "../../../src/icons/close.svg";
 import { useDispatch } from "react-redux";
 import { Supply } from "../../store/interfaces";
@@ -54,6 +54,12 @@ const EditSupplyModal: React.FC = () => {
         setFormData(currentSupply);
       }
     }
+
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [supplyData, id]);
 
   const closeModal = () => {

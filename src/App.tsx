@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./global.scss";
+import "./global.css";
 import SuppliesPage from "./pages/SuppliesPage/SuppliesPage";
 import AddSupplyModal from "./modals/AddSupplyModal/AddSupplyModal";
 import EditSupplyModal from "./modals/EditSupplyModal/EditSupplyModal";

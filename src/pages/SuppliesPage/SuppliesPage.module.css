@@ -1,35 +1,44 @@
 .suppliesPage {
   display: flex;
 }
+
 .suppliesPage__logo {
   margin: 30px 18px;
 }
+
 .suppliesPage__container {
   margin: 24px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
 }
+
 .suppliesPage__segments {
   display: flex;
   align-items: start;
   margin-bottom: 25px;
 }
+
 .suppliesPage__content {
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
 }
+
 .suppliesPage__title {
   letter-spacing: 0.7px;
   line-height: 48px;
 }
+
 .suppliesPage__actions {
   display: flex;
   align-items: center;
   gap: 24px;
 }
+
 .suppliesPage__adding {
+  text-decoration: none;
+  color: inherit;
   display: flex;
   gap: 10px;
   border-radius: 10px;
@@ -37,14 +46,17 @@
   margin-bottom: 4px;
   cursor: default;
 }
+
 .suppliesPage__adding:hover {
   background-color: var(--color-transparent);
 }
+
 .suppliesPage__addingImg {
   width: 18px;
   height: 18px;
 }
-.suppliesPage__menu_mob {
+
+.suppliesPage__menuMob {
   display: none;
 }
 
@@ -52,21 +64,87 @@
   .suppliesPage {
     display: block;
   }
+
   .suppliesPage__logoContainer {
     display: flex;
     justify-content: center;
   }
+
   .suppliesPage__logo {
     margin-bottom: 6px;
     display: flex;
   }
+
   .suppliesPage__actions {
     gap: 10px;
   }
 }
-@media (min-width: 768px) and (max-width: 1365px) and (min-width: 375px) and (max-width: 767px) {
+
+@media (min-width: 375px) and (max-width: 767px) {
+  .suppliesPage {
+    flex-direction: column;
+  }
+
+  .suppliesPage__container {
+    margin: 0px 16px 0px 16px;
+  }
+
   .suppliesPage__logo {
     width: 39px;
     height: 22px;
+    margin: 0 0 0 40px;
   }
-}/*# sourceMappingURL=SuppliesPage.module.css.map */
+
+  .suppliesPage__logoContainer {
+    background: linear-gradient(
+      to bottom,
+      rgba(99, 102, 241, 0.25) 12%,
+      rgba(99, 102, 241, 0) 55%,
+      rgba(45, 44, 50, 1) 100%
+    );
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(66, 65, 70, 1);
+    padding: 20px 28px;
+  }
+
+  .suppliesPage__menuMob {
+    display: block;
+  }
+
+  .suppliesPage__addingText {
+    display: none;
+  }
+
+  .suppliesPage__logoMob {
+    display: flex;
+    gap: 20px;
+  }
+
+  .suppliesPage__segments {
+    margin-bottom: 27px;
+  }
+
+  .suppliesPage__addingImg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .suppliesPage__adding {
+    padding: 7px 10px 4px 8px;
+  }
+
+  .suppliesPage__content {
+    align-items: flex-start;
+    margin-bottom: 18px;
+  }
+
+  .suppliesPage__title {
+    line-height: 40px;
+  }
+
+  .suppliesPage__adding:hover {
+    background-color: transparent;
+  }
+}

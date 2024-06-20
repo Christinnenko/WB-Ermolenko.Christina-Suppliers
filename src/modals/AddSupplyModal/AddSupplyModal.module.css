@@ -6,20 +6,25 @@
   display: flex;
   flex-direction: column;
 }
+
 .addSupplyModal__container {
   padding: 0 48px 48px 48px;
 }
+
 .addSupplyModal__closing {
   text-align: right;
   padding: 10px;
 }
+
 .addSupplyModal__btnClose {
   background-color: transparent;
   border: none;
   width: 24px;
   height: 24px;
   margin-bottom: 4px;
+  cursor: default;
 }
+
 .addSupplyModal__background {
   position: fixed;
   top: 0;
@@ -29,38 +34,45 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 2;
+  z-index: 9999;
   background-color: rgba(0, 0, 0, 0.7);
 }
+
 .addSupplyModal__title {
   font-size: 24px;
   color: var(--color-light);
   margin-bottom: 8px;
   letter-spacing: 0.7px;
 }
+
 .addSupplyModal__supplyNumber {
   color: #767386;
   margin-bottom: 30px;
 }
+
 .addSupplyModal__formGroup {
   display: flex;
   flex-direction: column;
   gap: 20px;
   margin-bottom: 26px;
 }
+
 .addSupplyModal__selectName {
   font-size: 13px;
-  color: var(--color-light);
+  color: var(--color-text-transparent);
   margin-left: 6px;
 }
+
 .addSupplyModal__form {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
+
 .addSupplyModal__inputDate {
   position: relative;
 }
+
 .addSupplyModal__inputDate::-webkit-calendar-picker-indicator {
   opacity: 0;
   position: absolute;
@@ -69,7 +81,9 @@
   width: 100%;
   height: 100%;
 }
-.addSupplyModal__calendarBtn, .addSupplyModal__inputSuffix {
+
+.addSupplyModal__calendarBtn,
+.addSupplyModal__inputSuffix {
   position: absolute;
   right: 16px;
   top: 50%;
@@ -77,15 +91,15 @@
   font-size: 14px;
   color: var(--color-light);
 }
+
 .addSupplyModal__calendarBtn {
   background-color: transparent;
   border: none;
 }
+
 .addSupplyModal__select {
   outline: none;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+  appearance: none;
   background: url("../../icons/arrow-vertical.svg") no-repeat;
   background-position: right 16px center;
   letter-spacing: 0.7px;
@@ -96,13 +110,15 @@
   border-radius: 10px;
   background-color: var(--color-transparent);
 }
+
 .addSupplyModal__inputContainer {
   position: relative;
   display: inline-block;
 }
+
 .addSupplyModal__input {
   outline: none;
-  padding: 14px 54px 14px 16px;
+  padding: 12px 54px 14px 16px;
   border: none;
   border-radius: 10px;
   font-size: 16px;
@@ -110,17 +126,23 @@
   background-color: var(--color-transparent);
   width: 100%;
 }
-.addSupplyModal__input[type=number]::-webkit-outer-spin-button, .addSupplyModal__input[type=number]::-webkit-inner-spin-button {
+
+.addSupplyModal__input[type="number"]::-webkit-outer-spin-button,
+.addSupplyModal__input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 .addSupplyModal__inputSuffix {
   top: 56%;
+  color: rgb(225, 225, 225, 0.2);
 }
+
 .addSupplyModal__btns {
   display: flex;
   gap: 22px;
 }
+
 .addSupplyModal__btnSave {
   background-color: #4649e5;
   color: var(--color-light);
@@ -129,12 +151,14 @@
   padding: 8px;
   font-size: 16px;
 }
+
 .addSupplyModal__btnCancel {
   color: var(--color-light);
   border: none;
   background-color: inherit;
   font-size: 16px;
 }
+
 .addSupplyModal__inputError {
   box-shadow: 0 0 0 1px #7c3d12;
-}/*# sourceMappingURL=AddSupplyModal.module.css.map */
+}

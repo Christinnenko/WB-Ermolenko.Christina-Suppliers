@@ -8,6 +8,7 @@
   --color-light: #fff;
   --color-transparent: rgba(255, 255, 255, 0.08);
   --color-dark: #2d2c32;
+  --color-text-transparent: rgba(255, 255, 255, 0.4);
 }
 
 @font-face {
@@ -16,18 +17,28 @@
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: "ALSHauss Medium";
   src: url("../public/fonts/ALSHauss-Medium.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: "ALSHauss Light";
   src: url("../public/fonts/ALSHauss-Light.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
+
+/* @font-face {
+  font-family: "ALSHauss Bold";
+   src: url("../public/fonts/ALSHauss-Bold.woff") format("woff");
+  font-weight: normal;
+ font-style: normal;
+ } */
+
 body {
   font-family: "ALSHauss", sans-serif;
   letter-spacing: 0.2px;
@@ -37,6 +48,7 @@ body {
   height: 100%;
 }
 
+/* стилизация календаря модального окна AddSupplyModal */
 .react-datepicker__header {
   background-color: transparent !important;
   border: none !important;
@@ -100,8 +112,11 @@ body {
   border: none !important;
 }
 
-.react-datepicker__day-name:nth-child(6), .react-datepicker__day-name:nth-child(7) {
-  color: #f96666;
+.react-datepicker__day-name {
+  &:nth-child(6),
+  &:nth-child(7) {
+    color: #f96666;
+  }
 }
 
 .react-datepicker-wrapper {
@@ -128,4 +143,4 @@ body {
   background: url("./icons/arrow-horizontal.svg") no-repeat !important;
   margin-top: 14px;
   margin-left: 20px;
-}/*# sourceMappingURL=global.css.map */
+}
