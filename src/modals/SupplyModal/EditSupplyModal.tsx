@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import styles from "./EditSupplyModal.module.css";
+import styles from "./SupplyModal.module.css";
 import {
   useGetCitiesQuery,
   useGetStatusesQuery,
@@ -233,25 +233,29 @@ const EditSupplyModal: React.FC = () => {
   };
 
   return (
-    <div className={styles.editSupplyModal__background}>
-      <div className={styles.editSupplyModal}>
-        <div className={styles.editSupplyModal__closing}>
-          <Link to="/" className={styles.editSupplyModal__btnClose}>
-            <img src={close} alt="Закрыть" />
+    <div className={styles.addSupplyModal__background}>
+      <div className={styles.addSupplyModal}>
+        <div className={styles.addSupplyModal__closing}>
+          <Link to="/" className={styles.addSupplyModal__btnClose}>
+            <img
+              src={close}
+              alt="Закрыть"
+              className={styles.addSupplyModal__btnImg}
+            />
           </Link>
         </div>
         <form
           onSubmit={handleSubmitEditSupply}
-          className={styles.editSupplyModal__container}
+          className={styles.addSupplyModal__container}
         >
-          <h1 className={styles.editSupplyModal__title}>Редактирование</h1>
-          <p className={styles.editSupplyModal__supplyNumber}>
+          <h1 className={styles.addSupplyModal__title}>Редактирование</h1>
+          <p className={styles.addSupplyModal__supplyNumber}>
             &#35;{currentSupply?.number}
           </p>
-          <div className={styles.editSupplyModal__formGroup}>
-            <div className={styles.editSupplyModal__form}>
+          <div className={styles.addSupplyModal__formGroup}>
+            <div className={styles.addSupplyModal__form}>
               <label
-                className={styles.editSupplyModal__selectName}
+                className={styles.addSupplyModal__selectName}
                 htmlFor="city"
               >
                 Город
@@ -263,7 +267,7 @@ const EditSupplyModal: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, city: e.target.value })
                 }
-                className={styles.editSupplyModal__select}
+                className={styles.addSupplyModal__select}
               >
                 {citiesData?.map((city) => (
                   <option key={city.id} value={city.city}>
@@ -272,9 +276,9 @@ const EditSupplyModal: React.FC = () => {
                 ))}
               </select>
             </div>
-            <div className={styles.editSupplyModal__form}>
+            <div className={styles.addSupplyModal__form}>
               <label
-                className={styles.editSupplyModal__selectName}
+                className={styles.addSupplyModal__selectName}
                 htmlFor="type"
               >
                 Тип поставки
@@ -286,7 +290,7 @@ const EditSupplyModal: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, type: e.target.value })
                 }
-                className={styles.editSupplyModal__select}
+                className={styles.addSupplyModal__select}
               >
                 {supplyTypesData?.map((type) => (
                   <option key={type.id} value={type.supplyType}>
@@ -295,32 +299,32 @@ const EditSupplyModal: React.FC = () => {
                 ))}
               </select>
             </div>
-            <div className={styles.editSupplyModal__form}>
+            <div className={styles.addSupplyModal__form}>
               <label
-                className={styles.editSupplyModal__selectName}
+                className={styles.addSupplyModal__selectName}
                 htmlFor="quantity"
               >
                 Количество
               </label>
-              <div className={styles.editSupplyModal__inputContainer}>
+              <div className={styles.addSupplyModal__inputContainer}>
                 <input
                   id="quantity"
                   type="number"
                   autoComplete="off"
                   onChange={handleInputChange}
                   value={formData.quantity.toString()}
-                  className={`${styles.editSupplyModal__input} ${
+                  className={`${styles.addSupplyModal__input} ${
                     errorsField.quantity
-                      ? styles.editSupplyModal__inputError
+                      ? styles.addSupplyModal__inputError
                       : ""
                   }`}
                 />
-                <span className={styles.editSupplyModal__inputSuffix}>шт.</span>
+                <span className={styles.addSupplyModal__inputSuffix}>шт.</span>
               </div>
             </div>
-            <div className={styles.editSupplyModal__form}>
+            <div className={styles.addSupplyModal__form}>
               <label
-                className={styles.editSupplyModal__selectName}
+                className={styles.addSupplyModal__selectName}
                 htmlFor="warehouseName"
               >
                 Склад
@@ -330,7 +334,7 @@ const EditSupplyModal: React.FC = () => {
                 name="warehouse"
                 value={formData.warehouse?.name}
                 onChange={handleInputChange}
-                className={styles.editSupplyModal__select}
+                className={styles.addSupplyModal__select}
               >
                 {warehousesData?.map((warehouse) => (
                   <option key={warehouse.id} value={warehouse.name}>
@@ -339,9 +343,9 @@ const EditSupplyModal: React.FC = () => {
                 ))}
               </select>
             </div>
-            <div className={styles.editSupplyModal__form}>
+            <div className={styles.addSupplyModal__form}>
               <label
-                className={styles.editSupplyModal__selectName}
+                className={styles.addSupplyModal__selectName}
                 htmlFor="status"
               >
                 Статус
@@ -353,7 +357,7 @@ const EditSupplyModal: React.FC = () => {
                 onChange={(e) =>
                   setFormData({ ...formData, status: e.target.value })
                 }
-                className={styles.editSupplyModal__select}
+                className={styles.addSupplyModal__select}
               >
                 {statusesData?.map((status) => (
                   <option key={status.id} value={status.status}>
@@ -363,14 +367,14 @@ const EditSupplyModal: React.FC = () => {
               </select>
             </div>
           </div>
-          <div className={styles.editSupplyModal__btns}>
-            <button type="submit" className={styles.editSupplyModal__btnSave}>
+          <div className={styles.addSupplyModal__btns}>
+            <button type="submit" className={styles.addSupplyModal__btnSave}>
               Сохранить
             </button>
             <button
               type="button"
               onClick={closeModal}
-              className={styles.editSupplyModal__btnCancel}
+              className={styles.addSupplyModal__btnCancel}
             >
               Отменить
             </button>

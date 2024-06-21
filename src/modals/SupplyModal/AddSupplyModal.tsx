@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styles from "./AddSupplyModal.module.css";
+import styles from "./SupplyModal.module.css";
 import "./CustomCalendar.css";
 import close from "../../../src/icons/close.svg";
 import calendar from "../../../src/icons/calendar.svg";
@@ -271,7 +271,11 @@ const AddSupplyModal: React.FC = () => {
       <div className={styles.addSupplyModal}>
         <div className={styles.addSupplyModal__closing}>
           <Link to="/" className={styles.addSupplyModal__btnClose}>
-            <img src={close} alt="Закрыть" />
+            <img
+              src={close}
+              alt="Закрыть"
+              className={styles.addSupplyModal__btnImg}
+            />
           </Link>
         </div>
         <form

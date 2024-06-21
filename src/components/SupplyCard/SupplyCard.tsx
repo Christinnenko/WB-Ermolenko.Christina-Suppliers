@@ -272,6 +272,11 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
                 src={editing}
                 alt="Редактировать"
               />
+              <img
+                className={styles.supplyCard__editingImgMob}
+                src={editingMob}
+                alt="Редактировать"
+              />
               {openOptionsId === supply.id && (
                 <div ref={wrapperRef} className={styles.supplyCard__options}>
                   <CustomOptions
@@ -280,12 +285,6 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
                   />
                 </div>
               )}
-              <img
-                className={styles.supplyCard__editingImgMob}
-                src={editingMob}
-                alt="Редактировать"
-                onClick={() => toggleOptions(supply.id)}
-              />
             </div>
           </div>
         ))}

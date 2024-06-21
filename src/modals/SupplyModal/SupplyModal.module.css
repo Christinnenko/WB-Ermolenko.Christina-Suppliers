@@ -16,6 +16,10 @@
   padding: 10px;
 }
 
+.addSupplyModal__btnImg {
+  padding: 10px;
+}
+
 .addSupplyModal__btnClose {
   background-color: transparent;
   border: none;
@@ -169,4 +173,41 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+@media (min-width: 375px) and (max-width: 767px) {
+  .addSupplyModal__container {
+    padding: 0 16px 16px 16px;
+  }
+
+  .addSupplyModal__form {
+    gap: 5px;
+  }
+
+  .addSupplyModal__closing {
+    padding: 0px 10px 10px 10px;
+  }
+
+  .addSupplyModal__title {
+    font-size: 22px;
+    margin-top: -35px;
+  }
+
+  .addSupplyModal__formGroup {
+    gap: 24px;
+    margin-bottom: 22px;
+  }
+
+  .addSupplyModal__supplyNumber {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .addSupplyModal__btnSave {
+    width: 100%;
+  }
+
+  .addSupplyModal__btnCancel {
+    display: none;
+  }
 }
