@@ -1,6 +1,6 @@
 # Cервис "Поставок"
 
-## Cервис со списком поставок, с возможностями поиска, редактирования, удаления и добавления поставки
+## Списком поставок, с возможностью поиска, редактирования, удаления и добавления поставки
 
 ## Технологии:
 
@@ -10,7 +10,7 @@ React, Typescript, Redux RTK, CRA, date-fns, react-datepicker, react-paginate
 
 1. Перейдите в директорию `mock-server`:
 
-   ```sh
+   ```s
    cd mock-server
    ```
 
@@ -20,7 +20,7 @@ React, Typescript, Redux RTK, CRA, date-fns, react-datepicker, react-paginate
    npm install
    ```
 
-3. Вернитесь в директорию `WB-Ermolenko.Christina-Suppliers`:
+3. Вернитесь в корневую директорию `WB-Ermolenko.Christina-Suppliers`:
 
    ```sh
    cd ..
@@ -35,17 +35,18 @@ React, Typescript, Redux RTK, CRA, date-fns, react-datepicker, react-paginate
 5. Запустите сервер:
 
    ```sh
-   npm run start
+   npm run start:server
    ```
 
    Сервер запускается по адресу `http://localhost:5001`.
 
    Данные доступны по адресам:
-   http://localhost:5001/api/supplies
-   http://localhost:5001/api/cities
-   http://localhost:5001/api/statuses
-   http://localhost:5001/api/supplyTypes
-   http://localhost:5001/api/warehouses
+
+   - http://localhost:5001/api/supplies
+   - http://localhost:5001/api/cities
+   - http://localhost:5001/api/statuses
+   - http://localhost:5001/api/supplyTypes
+   - http://localhost:5001/api/warehouses
 
 6. Откройте второй терминал и запустите приложение:
 
