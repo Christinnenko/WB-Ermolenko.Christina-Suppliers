@@ -16,10 +16,6 @@
   padding: 10px;
 }
 
-.addSupplyModal__btnImg {
-  padding: 10px;
-}
-
 .addSupplyModal__btnClose {
   background-color: transparent;
   border: none;
@@ -215,6 +211,10 @@ input[type="number"] {
 
   .addSupplyModal__closing {
     padding: 0px 10px 10px 10px;
+  }
+
+  .addSupplyModal__btnImg {
+    padding: 10px;
   }
 
   .addSupplyModal__title {
