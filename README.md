@@ -2,6 +2,8 @@
 
 ## Список поставок с возможностью поиска, редактирования, удаления и добавления поставки
 
+![image](https://github.com/Christinnenko/WB-Ermolenko.Christina-Suppliers/assets/135636897/e3013462-79e4-4dc9-89bb-3298264d6e53)
+
 ## Технологии:
 
 React, Typescript, React (CRA), Redux (RTK), RTK Query, date-fns, react-datepicker, react-paginate, Node.js, Express.js
