@@ -8,9 +8,11 @@ import {
 } from "../../store/apiSlice";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { useAppSelector } from "../../store/store";
 import {
   deleteSupply,
+  selectFilteredSupplies,
+  selectSupplies,
   setFilteredSupplies,
   setSupplies,
 } from "../../store/features/suppliesSlice";
@@ -19,13 +21,9 @@ import {
   selectSearchType,
 } from "../../store/features/searchSlice";
 import CustomOptions from "../CustomOptions/CustomOptions";
+import { SupplyCardProps } from "../../store/interfaces";
 
 const ITEMS_PER_PAGE = 9;
-
-interface SupplyCardProps {
-  currentPage: number;
-  onPageChange: (page: number) => void;
-}
 
 const SupplyCard: React.FC<SupplyCardProps> = ({
   currentPage,
@@ -33,9 +31,31 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [openOptionsId, setOpenOptionsId] = useState<string | null>(null);
   const wrapperRef = useRef(null);
+  const [openOptionsId, setOpenOptionsId] = useState<string | null>(null);
   const [message, setMessage] = useState<string>("");
+
+  const supplies = useAppSelector(selectSupplies);
+  const filteredSupplies = useAppSelector(selectFilteredSupplies);
+  const type = useSelector(selectSearchType);
+  const input = useSelector(selectSearchInput).trim().toLowerCase();
+
+  const options = [
+    { value: "Редактировать", label: "Редактировать" },
+    { value: "Отменить поставку", label: "Отменить поставку" },
+  ];
+
+  const pageCount = Math.ceil(filteredSupplies.length / ITEMS_PER_PAGE);
+
+  const {
+    data: supplyData,
+    isLoading: isSuppliesLoading,
+    isError: isSuppliesError,
+  } = useGetSuppliesQuery();
+  const [
+    deleteSupplyMutation,
+    { isLoading: isDeleteLoading, isError: isDeleteError },
+  ] = useDeleteSupplyMutation();
 
   //закрытие выпадающего списка при клике по эрану
   useEffect(() => {
@@ -53,16 +73,6 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [wrapperRef]);
-
-  const {
-    data: supplyData,
-    isLoading: isSuppliesLoading,
-    isError: isSuppliesError,
-  } = useGetSuppliesQuery();
-  const [
-    deleteSupplyMutation,
-    { isLoading: isDeleteLoading, isError: isDeleteError },
-  ] = useDeleteSupplyMutation();
 
   useEffect(() => {
     if (isSuppliesLoading || isDeleteLoading) {
@@ -90,16 +100,6 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
     }
   }, [isSuppliesLoading, isDeleteLoading, isSuppliesError, isDeleteError]);
 
-  const supplies = useSelector((state: RootState) => state.supplies.supplies);
-  const filteredSupplies = useSelector(
-    (state: RootState) => state.supplies.filteredSupplies
-  );
-
-  const type = useSelector(selectSearchType);
-  const input = useSelector(selectSearchInput).trim().toLowerCase();
-
-  const pageCount = Math.ceil(filteredSupplies.length / ITEMS_PER_PAGE);
-
   useEffect(() => {
     if (currentPage >= pageCount && pageCount > 0) {
       onPageChange(pageCount - 1);
@@ -124,16 +124,16 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
     dispatch(setFilteredSupplies(newFilteredSupplies));
   }, [input, type, supplies, dispatch]);
 
-  const displayedSupplies = filteredSupplies.slice(
-    currentPage * ITEMS_PER_PAGE,
-    (currentPage + 1) * ITEMS_PER_PAGE
-  );
-
   useEffect(() => {
     if (supplyData) {
       dispatch(setSupplies(supplyData));
     }
   }, [supplyData, dispatch]);
+
+  const displayedSupplies = filteredSupplies.slice(
+    currentPage * ITEMS_PER_PAGE,
+    (currentPage + 1) * ITEMS_PER_PAGE
+  );
 
   const handleDeleteSupply = async (supplyId: string) => {
     try {
@@ -155,11 +155,6 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
       }
     }
   };
-
-  const options = [
-    { value: "Редактировать", label: "Редактировать" },
-    { value: "Отменить поставку", label: "Отменить поставку" },
-  ];
 
   const handleOptionChange = (value: string, supplyId: string) => {
     if (value === "Редактировать") {

@@ -1,10 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Supply } from "../interfaces";
-
-interface SuppliesState {
-  supplies: Supply[];
-  filteredSupplies: Supply[];
-}
+import { SuppliesState, Supply } from "../interfaces";
+import { RootState } from "../store";
 
 const initialState: SuppliesState = {
   supplies: [],
@@ -50,5 +46,9 @@ export const {
   updateSupply,
   deleteSupply,
 } = suppliesSlice.actions;
+
+export const selectSupplies = (state: RootState) => state.supplies.supplies;
+export const selectFilteredSupplies = (state: RootState) =>
+  state.supplies.filteredSupplies;
 
 export const suppliesReducer = suppliesSlice.reducer;

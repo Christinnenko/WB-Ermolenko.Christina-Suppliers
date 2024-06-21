@@ -3,11 +3,7 @@ import ReactPaginate from "react-paginate";
 import "./Pagination.css";
 import arrowHorizontLeft from "../../../src/icons/arrow-horisont-left.svg";
 import arrowHorizontRight from "../../../src/icons/arrow-horisont-right.svg";
-
-export interface PaginationProps {
-  pageCount: number;
-  onChange: ({ selected }: { selected: number }) => void;
-}
+import { PaginationProps } from "../../store/interfaces";
 
 const Pagination: React.FC<PaginationProps> = ({ pageCount, onChange }) => {
   const [currentPage, setCurrentPage] = useState(0);

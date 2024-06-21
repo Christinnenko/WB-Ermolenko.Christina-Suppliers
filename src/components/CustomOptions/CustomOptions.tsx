@@ -1,11 +1,6 @@
 import React from "react";
 import styles from "./CustomOptions.module.css";
-
-interface CustomOptionProps {
-  options: { value: string; label: string }[];
-  onChange: (value: string) => void;
-  customStyles?: React.CSSProperties;
-}
+import { CustomOptionProps } from "../../store/interfaces";
 
 const CustomOptions: React.FC<CustomOptionProps> = ({ options, onChange }) => {
   return (

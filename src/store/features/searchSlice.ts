@@ -1,10 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-
-export interface SearchState {
-  type: string;
-  input: string;
-}
+import { SearchState } from "../interfaces";
 
 const initialState: SearchState = {
   type: "По номеру",

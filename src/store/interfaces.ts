@@ -32,3 +32,29 @@ export interface Supply {
   };
   status: string;
 }
+
+export interface SuppliesState {
+  supplies: Supply[];
+  filteredSupplies: Supply[];
+}
+
+export interface SearchState {
+  type: string;
+  input: string;
+}
+
+export interface CustomOptionProps {
+  options: { value: string; label: string }[];
+  onChange: (value: string) => void;
+  customStyles?: React.CSSProperties;
+}
+
+export interface PaginationProps {
+  pageCount: number;
+  onChange: ({ selected }: { selected: number }) => void;
+}
+
+export interface SupplyCardProps {
+  currentPage: number;
+  onPageChange: (page: number) => void;
+}

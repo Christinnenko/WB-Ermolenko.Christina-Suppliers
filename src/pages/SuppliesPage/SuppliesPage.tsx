@@ -9,12 +9,12 @@ import Segments from "../../components/Segments/Segments";
 import Search from "../../components/Search/Search";
 import SupplyCard from "../../components/SupplyCard/SupplyCard";
 import { Link, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
 import Pagination from "../../components/Pagination/Pagination";
-import { RootState } from "../../store/store";
+import { useAppSelector } from "../../store/store";
+import { selectSupplies } from "../../store/features/suppliesSlice";
 
 const SuppliesPage: React.FC = () => {
-  const supplies = useSelector((state: RootState) => state.supplies.supplies);
+  const supplies = useAppSelector(selectSupplies);
 
   const [currentPage, setCurrentPage] = useState(0);
 
