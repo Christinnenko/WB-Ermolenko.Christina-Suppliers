@@ -39,7 +39,7 @@ const SuppliesPage: React.FC = () => {
           <div className={styles.suppliesPage__logoMob}>
             <img
               src={reload}
-              alt="Обновить"
+              alt="Обновить данные"
               className={styles.suppliesPage__menuMob}
             />
             <img
@@ -74,10 +74,7 @@ const SuppliesPage: React.FC = () => {
           </div>
           <SupplyCard currentPage={currentPage} onPageChange={setCurrentPage} />
           <Pagination
-            initialPage={0}
-            marginPagesDisplayed={2}
             pageCount={Math.ceil(supplies.length / 9)}
-            pageRangeDisplayed={3}
             onChange={handlePageChange}
           />
         </div>

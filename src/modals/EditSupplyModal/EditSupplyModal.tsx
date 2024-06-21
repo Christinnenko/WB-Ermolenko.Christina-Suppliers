@@ -17,14 +17,40 @@ import { updateSupply } from "../../store/features/suppliesSlice";
 const EditSupplyModal: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [message, setMessage] = useState<string>("");
+
   const { id } = useParams<{ id: string }>();
 
-  const { data: supplyData, refetch: refetchSupplies } = useGetSuppliesQuery();
-  const { data: citiesData } = useGetCitiesQuery();
-  const { data: supplyTypesData } = useGetSupplyTypesQuery();
-  const { data: warehousesData } = useGetWarehousesQuery();
-  const { data: statusesData } = useGetStatusesQuery();
-  const [updateSupplyMutation] = useUpdateSupplyMutation();
+  const {
+    data: supplyData,
+    isLoading: isSuppliesLoading,
+    isError: isSuppliesError,
+    refetch: refetchSupplies,
+  } = useGetSuppliesQuery();
+  const {
+    data: citiesData,
+    isLoading: isCitiesLoading,
+    isError: isCitiesError,
+  } = useGetCitiesQuery();
+  const {
+    data: supplyTypesData,
+    isLoading: isSupplyTypesLoading,
+    isError: isSupplyTypesError,
+  } = useGetSupplyTypesQuery();
+  const {
+    data: warehousesData,
+    isLoading: isWarehousesLoading,
+    isError: isWarehousesError,
+  } = useGetWarehousesQuery();
+  const {
+    data: statusesData,
+    isLoading: isStatusesLoading,
+    isError: isStatusesError,
+  } = useGetStatusesQuery();
+  const [
+    updateSupplyMutation,
+    { isLoading: isUpdateLoading, isError: isUpdateError },
+  ] = useUpdateSupplyMutation();
 
   const [formData, setFormData] = useState<Supply>({
     id: "",
@@ -113,19 +139,50 @@ const EditSupplyModal: React.FC = () => {
     }
   };
 
-  if (!citiesData || !supplyTypesData || !warehousesData || !statusesData) {
-    return <h1>Загрузка...</h1>;
-  }
-
-  if (!id) {
-    return <h1>ID не получен</h1>;
-  }
-
   const currentSupply = supplyData?.find((item) => item.id === id);
 
-  if (!currentSupply) {
-    return <h1>Список поставок не найден</h1>;
-  }
+  useEffect(() => {
+    if (
+      isSuppliesLoading ||
+      isCitiesLoading ||
+      isSupplyTypesLoading ||
+      isWarehousesLoading ||
+      isStatusesLoading ||
+      isUpdateLoading
+    ) {
+      setMessage("Загрузка");
+    } else if (
+      isSuppliesError ||
+      isCitiesError ||
+      isSupplyTypesError ||
+      isWarehousesError ||
+      isStatusesError ||
+      isUpdateError
+    ) {
+      setMessage("Произошла ошибка при загрузке данных");
+    } else if (!id) {
+      setMessage("Поставка не найдена");
+    } else if (!currentSupply) {
+      setMessage("Список поставок не найден");
+    } else {
+      setMessage("");
+    }
+  }, [
+    isSuppliesLoading,
+    isCitiesLoading,
+    isSupplyTypesLoading,
+    isWarehousesLoading,
+    isStatusesLoading,
+    isUpdateLoading,
+    isSuppliesError,
+    isCitiesError,
+    isSupplyTypesError,
+    isWarehousesError,
+    isStatusesError,
+    isUpdateError,
+    id,
+    currentSupply,
+  ]);
 
   const handleSubmitEditSupply = async (
     e: React.FormEvent<HTMLFormElement>
@@ -154,8 +211,24 @@ const EditSupplyModal: React.FC = () => {
       }
 
       closeModal();
-    } catch (error) {
-      console.error("Ошибка при обновлении поставки:", error);
+    } catch (error: any) {
+      if (error.status === 404) {
+        setMessage("Не удалось найти поставку");
+        console.error(
+          "Произошла ошибка при добавлении поставки. Поставка не найдена:",
+          error
+        );
+      } else if (error.status === 500) {
+        setMessage(
+          "Произошла ошибка при редактировании поставки. Попробуйте позже"
+        );
+        console.error("Произошла ошибка при добавлении поставки:", error);
+      } else {
+        setMessage(
+          "Произошла ошибка при редактировании поставки. Попробуйте позже"
+        );
+        console.error("Произошла ошибка при добавлении поставки:", error);
+      }
     }
   };
 
@@ -164,7 +237,7 @@ const EditSupplyModal: React.FC = () => {
       <div className={styles.editSupplyModal}>
         <div className={styles.editSupplyModal__closing}>
           <Link to="/" className={styles.editSupplyModal__btnClose}>
-            <img src={close} alt="Кнопка закрытия" />
+            <img src={close} alt="Закрыть" />
           </Link>
         </div>
         <form
@@ -173,7 +246,7 @@ const EditSupplyModal: React.FC = () => {
         >
           <h1 className={styles.editSupplyModal__title}>Редактирование</h1>
           <p className={styles.editSupplyModal__supplyNumber}>
-            &#35;{currentSupply.number}
+            &#35;{currentSupply?.number}
           </p>
           <div className={styles.editSupplyModal__formGroup}>
             <div className={styles.editSupplyModal__form}>
@@ -192,7 +265,7 @@ const EditSupplyModal: React.FC = () => {
                 }
                 className={styles.editSupplyModal__select}
               >
-                {citiesData.map((city) => (
+                {citiesData?.map((city) => (
                   <option key={city.id} value={city.city}>
                     {city.city}
                   </option>
@@ -215,7 +288,7 @@ const EditSupplyModal: React.FC = () => {
                 }
                 className={styles.editSupplyModal__select}
               >
-                {supplyTypesData.map((type) => (
+                {supplyTypesData?.map((type) => (
                   <option key={type.id} value={type.supplyType}>
                     {type.supplyType}
                   </option>
@@ -259,7 +332,7 @@ const EditSupplyModal: React.FC = () => {
                 onChange={handleInputChange}
                 className={styles.editSupplyModal__select}
               >
-                {warehousesData.map((warehouse) => (
+                {warehousesData?.map((warehouse) => (
                   <option key={warehouse.id} value={warehouse.name}>
                     {warehouse.name}
                   </option>
@@ -282,7 +355,7 @@ const EditSupplyModal: React.FC = () => {
                 }
                 className={styles.editSupplyModal__select}
               >
-                {statusesData.map((status) => (
+                {statusesData?.map((status) => (
                   <option key={status.id} value={status.status}>
                     {status.status}
                   </option>
@@ -302,6 +375,7 @@ const EditSupplyModal: React.FC = () => {
               Отменить
             </button>
           </div>
+          {message && <div className={styles.message}>{message}</div>}
         </form>
       </div>
     </div>

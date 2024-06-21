@@ -3,15 +3,11 @@ import { Supply } from "../interfaces";
 
 interface SuppliesState {
   supplies: Supply[];
-  currentPage: number;
-  itemsPerPage: number;
   filteredSupplies: Supply[];
 }
 
 const initialState: SuppliesState = {
   supplies: [],
-  currentPage: 0,
-  itemsPerPage: 10,
   filteredSupplies: [],
 };
 
@@ -44,12 +40,6 @@ const suppliesSlice = createSlice({
         (supply) => supply.id !== supplyIdToDelete
       );
     },
-    setCurrentPage(state, action: PayloadAction<number>) {
-      state.currentPage = action.payload;
-    },
-    setItemsPerPage(state, action: PayloadAction<number>) {
-      state.itemsPerPage = action.payload;
-    },
   },
 });
 
@@ -59,8 +49,6 @@ export const {
   addSupply,
   updateSupply,
   deleteSupply,
-  setCurrentPage,
-  setItemsPerPage,
 } = suppliesSlice.actions;
 
 export const suppliesReducer = suppliesSlice.reducer;

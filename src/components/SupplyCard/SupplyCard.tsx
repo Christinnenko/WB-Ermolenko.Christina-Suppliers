@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./SupplyCard.module.css";
 import editing from "../../../src/icons/editing.svg";
 import editingMob from "../../../src/icons/mob-pencil.svg";
@@ -33,9 +33,62 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [openOptionsId, setOpenOptionsId] = useState<string | null>(null);
+  const wrapperRef = useRef(null);
+  const [message, setMessage] = useState<string>("");
 
-  const { data: supplyData, isFetching } = useGetSuppliesQuery();
-  const [deleteSupplyMutation] = useDeleteSupplyMutation();
+  //закрытие выпадающего списка при клике по эрану
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        wrapperRef.current &&
+        !(wrapperRef.current as HTMLElement).contains(event.target as Node)
+      ) {
+        setOpenOptionsId("");
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [wrapperRef]);
+
+  const {
+    data: supplyData,
+    isLoading: isSuppliesLoading,
+    isError: isSuppliesError,
+  } = useGetSuppliesQuery();
+  const [
+    deleteSupplyMutation,
+    { isLoading: isDeleteLoading, isError: isDeleteError },
+  ] = useDeleteSupplyMutation();
+
+  useEffect(() => {
+    if (isSuppliesLoading || isDeleteLoading) {
+      setMessage("Загрузка");
+    } else if (isSuppliesError && typeof isSuppliesError === "object") {
+      const error = isSuppliesError as { status?: number; message?: string };
+      if (error.status === 500) {
+        console.error("Ошибка сервера при загрузке поставок: ", error.message);
+        setMessage(
+          "Произошла ошибка сервера при загрузке поставок. Пожалуйста, попробуйте позже."
+        );
+      } else {
+        console.error(
+          "Произошла ошибка при загрузке поставок: ",
+          error.message
+        );
+        setMessage(
+          "Произошла ошибка при загрузке поставок. Пожалуйста, попробуйте еще раз."
+        );
+      }
+    } else if (isDeleteError) {
+      setMessage("Произошла ошибка при удалении поставки.");
+    } else {
+      setMessage("");
+    }
+  }, [isSuppliesLoading, isDeleteLoading, isSuppliesError, isDeleteError]);
 
   const supplies = useSelector((state: RootState) => state.supplies.supplies);
   const filteredSupplies = useSelector(
@@ -46,6 +99,7 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
   const input = useSelector(selectSearchInput).trim().toLowerCase();
 
   const pageCount = Math.ceil(filteredSupplies.length / ITEMS_PER_PAGE);
+
   useEffect(() => {
     if (currentPage >= pageCount && pageCount > 0) {
       onPageChange(pageCount - 1);
@@ -76,17 +130,29 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
   );
 
   useEffect(() => {
-    if (supplyData && !isFetching) {
+    if (supplyData) {
       dispatch(setSupplies(supplyData));
     }
-  }, [supplyData, isFetching, dispatch]);
+  }, [supplyData, dispatch]);
 
   const handleDeleteSupply = async (supplyId: string) => {
     try {
       await deleteSupplyMutation(supplyId).unwrap();
       dispatch(deleteSupply(supplyId));
-    } catch (error) {
-      console.error("Failed to delete supply:", error);
+    } catch (error: any) {
+      if (error.status === 404) {
+        setMessage("Не удалось найти поставку");
+        console.error(
+          "Произошла ошибка при удалении поставки. Поставка не найдена:",
+          error
+        );
+      } else if (error.status === 500) {
+        setMessage("Произошла ошибка при удалении поставки. Попробуйте позже");
+        console.error("Произошла ошибка при удалении поставки:", error);
+      } else {
+        setMessage("Произошла ошибка при удалении поставки. Попробуйте позже");
+        console.error("Произошла ошибка при удалении поставки:", error);
+      }
     }
   };
 
@@ -94,8 +160,6 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
     { value: "Редактировать", label: "Редактировать" },
     { value: "Отменить поставку", label: "Отменить поставку" },
   ];
-
-  const [openOptionsId, setOpenOptionsId] = useState<string | null>(null);
 
   const handleOptionChange = (value: string, supplyId: string) => {
     if (value === "Редактировать") {
@@ -110,11 +174,7 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
   };
 
   if (!supplyData || filteredSupplies.length === 0) {
-    return (
-      <div className={styles.supplyCard__noSuppliesMessage}>
-        Поставки отсутствуют. Для начала работы добавьте поставку.
-      </div>
-    );
+    return <div className={styles.message}>Поставки отсутствуют.</div>;
   }
 
   return (
@@ -213,7 +273,7 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
                 alt="Редактировать"
               />
               {openOptionsId === supply.id && (
-                <div className={styles.supplyCard__options}>
+                <div ref={wrapperRef} className={styles.supplyCard__options}>
                   <CustomOptions
                     options={options}
                     onChange={(value) => handleOptionChange(value, supply.id)}
@@ -229,6 +289,7 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
             </div>
           </div>
         ))}
+        {message && <div className={styles.message}>{message}</div>}
       </div>
     </>
   );

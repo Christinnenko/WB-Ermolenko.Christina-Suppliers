@@ -35,6 +35,10 @@
   background-color: var(--color-transparent);
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 @media (min-width: 375px) and (max-width: 767px) {
   .pagination {
     margin-top: 210px;

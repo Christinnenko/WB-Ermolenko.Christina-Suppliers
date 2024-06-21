@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./AddSupplyModal.module.css";
+import "./CustomCalendar.css";
 import close from "../../../src/icons/close.svg";
 import calendar from "../../../src/icons/calendar.svg";
 import DatePicker from "react-datepicker";
@@ -26,14 +27,36 @@ const AddSupplyModal: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [message, setMessage] = useState<string>("");
 
-  const { data: citiesData } = useGetCitiesQuery();
-  const { data: supplyTypesData } = useGetSupplyTypesQuery();
-  const { data: warehousesData } = useGetWarehousesQuery();
-  const { data: statusesData } = useGetStatusesQuery();
-  const { data: suppliesData, refetch: refetchSupplies } =
-    useGetSuppliesQuery();
-  const [addSupplyMutation] = useAddSupplyMutation();
+  const {
+    data: citiesData,
+    isLoading: isCitiesLoading,
+    isError: isCitiesError,
+  } = useGetCitiesQuery();
+  const {
+    data: supplyTypesData,
+    isLoading: isSupplyTypesLoading,
+    isError: isSupplyTypesError,
+  } = useGetSupplyTypesQuery();
+  const {
+    data: warehousesData,
+    isLoading: isWarehousesLoading,
+    isError: isWarehousesError,
+  } = useGetWarehousesQuery();
+  const {
+    data: statusesData,
+    isLoading: isStatusesLoading,
+    isError: isStatusesError,
+  } = useGetStatusesQuery();
+  const {
+    data: suppliesData,
+    isLoading: isSuppliesLoading,
+    isError: isSuppliesError,
+    refetch: refetchSupplies,
+  } = useGetSuppliesQuery();
+  const [addSupplyMutation, { isLoading: isAddLoading, isError: isAddError }] =
+    useAddSupplyMutation();
 
   const [formData, setFormData] = useState<Supply>({
     id: "",
@@ -56,6 +79,46 @@ const AddSupplyModal: React.FC = () => {
     quantity: false,
     date: false,
   });
+
+  useEffect(() => {
+    if (
+      isSuppliesLoading ||
+      isCitiesLoading ||
+      isSupplyTypesLoading ||
+      isWarehousesLoading ||
+      isStatusesLoading ||
+      isAddLoading
+    ) {
+      setMessage("Загрузка");
+    } else if (
+      isSuppliesError ||
+      isCitiesError ||
+      isSupplyTypesError ||
+      isWarehousesError ||
+      isStatusesError ||
+      isAddError
+    ) {
+      setMessage("Произошла ошибка при загрузке данных");
+    } else if (!suppliesData) {
+      setMessage("Список поставок не найден");
+    } else {
+      setMessage("");
+    }
+  }, [
+    isSuppliesLoading,
+    isCitiesLoading,
+    isSupplyTypesLoading,
+    isWarehousesLoading,
+    isStatusesLoading,
+    isAddLoading,
+    isSuppliesError,
+    isCitiesError,
+    isSupplyTypesError,
+    isWarehousesError,
+    isStatusesError,
+    isAddError,
+    suppliesData,
+  ]);
 
   //для обновления поставок (необходимо для корректной генерации номера поставки)
   const [isInitialized, setIsInitialized] = useState(false);
@@ -104,16 +167,6 @@ const AddSupplyModal: React.FC = () => {
     statusesData,
     isInitialized,
   ]);
-
-  if (
-    !citiesData ||
-    !supplyTypesData ||
-    !warehousesData ||
-    !statusesData ||
-    !suppliesData
-  ) {
-    return <h1>Загрузка...</h1>;
-  }
 
   const closeModal = () => {
     refetchSupplies(); //для формирования номера поставки
@@ -198,8 +251,18 @@ const AddSupplyModal: React.FC = () => {
         }
       }
       closeModal();
-    } catch (error) {
-      console.error("Не удалось добавить поставку:", error);
+    } catch (error: any) {
+      if (error.status === 500) {
+        setMessage(
+          "Произошла ошибка при добавлении поставки. Попробуйте добавить поставку позже"
+        );
+        console.error("Произошла ошибка при добавлении поставки:", error);
+      } else {
+        setMessage(
+          "Произошла ошибка при добавлении поставки. Попробуйте добавить поставку позже"
+        );
+        console.error("Произошла ошибка при добавлении поставки:", error);
+      }
     }
   };
 
@@ -208,7 +271,7 @@ const AddSupplyModal: React.FC = () => {
       <div className={styles.addSupplyModal}>
         <div className={styles.addSupplyModal__closing}>
           <Link to="/" className={styles.addSupplyModal__btnClose}>
-            <img src={close} alt="Кнопка закрытия" />
+            <img src={close} alt="Закрыть" />
           </Link>
         </div>
         <form
@@ -261,7 +324,7 @@ const AddSupplyModal: React.FC = () => {
                 onChange={handleInputChange}
                 value={formData.city}
               >
-                {citiesData.map((city) => (
+                {citiesData?.map((city) => (
                   <option key={city.id} value={city.city}>
                     {city.city}
                   </option>
@@ -304,7 +367,7 @@ const AddSupplyModal: React.FC = () => {
                 onChange={handleInputChange}
                 value={formData.type}
               >
-                {supplyTypesData.map((type) => (
+                {supplyTypesData?.map((type) => (
                   <option key={type.id} value={type.supplyType}>
                     {type.supplyType}
                   </option>
@@ -324,7 +387,7 @@ const AddSupplyModal: React.FC = () => {
                 onChange={handleInputChange}
                 value={formData.warehouse.name}
               >
-                {warehousesData.map((warehouse) => (
+                {warehousesData?.map((warehouse) => (
                   <option key={warehouse.id} value={warehouse.name}>
                     {warehouse.name}
                   </option>
@@ -344,7 +407,7 @@ const AddSupplyModal: React.FC = () => {
                 onChange={handleInputChange}
                 value={formData.status}
               >
-                {statusesData.map((status) => (
+                {statusesData?.map((status) => (
                   <option key={status.id} value={status.status}>
                     {status.status}
                   </option>
@@ -364,6 +427,7 @@ const AddSupplyModal: React.FC = () => {
               Отменить
             </button>
           </div>
+          {message && <div className={styles.message}>{message}</div>}
         </form>
       </div>
     </div>

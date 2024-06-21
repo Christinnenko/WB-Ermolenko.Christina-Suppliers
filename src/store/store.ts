@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { apiSlice } from "./apiSlice";
-import { suppliesReducer } from "./features/suppliesSlice";
 import { searchReducer } from "./features/searchSlice";
+import { suppliesReducer } from "./features/suppliesSlice";
 
 export const store = configureStore({
   reducer: {

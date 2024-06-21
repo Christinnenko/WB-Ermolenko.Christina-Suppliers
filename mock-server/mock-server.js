@@ -31,8 +31,8 @@ const getDataFromFile = (fileName) => {
   }
 
   if (!Array.isArray(data)) {
-    console.error(`${fileName} does not contain an array.`);
-    throw new Error(`${fileName} is not an array.`);
+    console.error(`${fileName} не содержит массив.`);
+    throw new Error(`${fileName} не является массивом.`);
   }
 
   return data;
@@ -44,8 +44,8 @@ app.get("/api/statuses", (req, res) => {
     const data = getDataFromFile("statuses.json");
     res.json(data);
   } catch (err) {
-    console.error("Error reading statuses file:", err);
-    res.status(500).json({ error: "Failed to read statuses file" });
+    console.error("Ошибка при чтении файла со статусами:", err);
+    res.status(500).json({ error: "Не удалось прочитать файл со статусами" });
   }
 });
 
@@ -55,8 +55,8 @@ app.get("/api/cities", (req, res) => {
     const data = getDataFromFile("cities.json");
     res.json(data);
   } catch (err) {
-    console.error("Error reading cities file:", err);
-    res.status(500).json({ error: "Failed to read cities file" });
+    console.error("Ошибка при чтении файла с городами:", err);
+    res.status(500).json({ error: "Не удалось прочитать файл с городами" });
   }
 });
 
@@ -66,8 +66,10 @@ app.get("/api/supplyTypes", (req, res) => {
     const data = getDataFromFile("supplyTypes.json");
     res.json(data);
   } catch (err) {
-    console.error("Error reading supply types file:", err);
-    res.status(500).json({ error: "Failed to read supply types file" });
+    console.error("Ошибка при чтении файла с типами поставок:", err);
+    res
+      .status(500)
+      .json({ error: "Не удалось прочитать файл с типами поставок" });
   }
 });
 
@@ -77,8 +79,8 @@ app.get("/api/warehouses", (req, res) => {
     const data = getDataFromFile("warehouses.json");
     res.json(data);
   } catch (err) {
-    console.error("Error reading warehouses file:", err);
-    res.status(500).json({ error: "Failed to read warehouses file" });
+    console.error("Ошибка при чтении файла со складами:", err);
+    res.status(500).json({ error: "Не удалось прочитать файл со складами" });
   }
 });
 
@@ -88,8 +90,8 @@ app.get("/api/supplies", (req, res) => {
     const data = getDataFromFile("supplies.json");
     res.json(data);
   } catch (err) {
-    console.error("Error reading supplies:", err);
-    res.status(500).json({ error: "Failed to read supplies" });
+    console.error("Ошибка при чтении поставок:", err);
+    res.status(500).json({ error: "Не удалось прочитать поставки" });
   }
 });
 
@@ -103,8 +105,8 @@ app.post("/api/supplies", (req, res) => {
     saveSuppliesToFile(supplies);
     res.json({ message: "Supply added successfully", supply: newSupply });
   } catch (err) {
-    console.error("Error adding supply:", err);
-    res.status(500).json({ error: "Failed to add supply" });
+    console.error("Ошибка при добавлении поставки:", err);
+    res.status(500).json({ error: "Не удалось добавить поставку" });
   }
 });
 
@@ -128,15 +130,15 @@ app.put("/api/supplies/:id", (req, res) => {
       saveSuppliesToFile(supplies);
 
       res.json({
-        message: `Supply with ID ${supplyId} updated successfully`,
+        message: `Поставка с ID ${supplyId} успешно обновлена`,
         updatedSupply,
       });
     } else {
-      res.status(404).json({ error: `Supply with ID ${supplyId} not found` });
+      res.status(404).json({ error: `Поставка с ID ${supplyId} не найдена` });
     }
   } catch (err) {
-    console.error("Error updating supply:", err);
-    res.status(500).json({ error: "Failed to update supply" });
+    console.error("Ошибка при обновлении поставки:", err);
+    res.status(500).json({ error: "Не удалось обновить поставку" });
   }
 });
 
@@ -149,13 +151,13 @@ app.delete("/api/supplies/:id", (req, res) => {
     if (index !== -1) {
       supplies.splice(index, 1);
       saveSuppliesToFile(supplies);
-      res.json({ message: `Supply with ID ${supplyId} deleted successfully` });
+      res.json({ message: `Поставка с ID ${supplyId} успешно удалена` });
     } else {
-      res.status(404).json({ error: `Supply with ID ${supplyId} not found` });
+      res.status(404).json({ error: `Поставка с ID ${supplyId} не найдена` });
     }
   } catch (err) {
-    console.error("Error deleting supply:", err);
-    res.status(500).json({ error: "Failed to delete supply" });
+    console.error("Ошибка при удалении поставки:", err);
+    res.status(500).json({ error: "Не удалось удалить поставку" });
   }
 });
 
@@ -164,12 +166,12 @@ function saveSuppliesToFile(supplies) {
   const filePath = path.join(dataDir, "supplies.json");
   fs.writeFile(filePath, JSON.stringify(supplies, null, 2), (err) => {
     if (err) {
-      console.error("Error saving supplies to file:", err);
+      console.error("Ошибка при сохранении поставок в файле:", err);
     }
   });
 }
 
 // Запуск сервера
 app.listen(port, () => {
-  console.log(`Mock server is running on http://localhost:${port}`);
+  console.log(`Мок-сервер запущен по адресу http://localhost:${port}`);
 });
