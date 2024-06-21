@@ -52,9 +52,14 @@ export interface CustomOptionProps {
 export interface PaginationProps {
   pageCount: number;
   onChange: ({ selected }: { selected: number }) => void;
+  currentPage: number;
 }
 
 export interface SupplyCardProps {
   currentPage: number;
   onPageChange: (page: number) => void;
+}
+
+export interface SearchProps {
+  onSearchClear: () => void;
 }

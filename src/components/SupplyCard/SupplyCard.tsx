@@ -169,7 +169,11 @@ const SupplyCard: React.FC<SupplyCardProps> = ({
   };
 
   if (!supplyData || filteredSupplies.length === 0) {
-    return <div className={styles.message}>Поставки отсутствуют.</div>;
+    return (
+      <div className={styles.message}>
+        <p className={styles.messageText}>Поставки отсутствуют</p>
+      </div>
+    );
   }
 
   return (

@@ -22,6 +22,10 @@ const SuppliesPage: React.FC = () => {
     setCurrentPage(selected);
   };
 
+  const handleSearchClear = () => {
+    setCurrentPage(0);
+  };
+
   return (
     <div>
       <div className={styles.suppliesPage}>
@@ -69,7 +73,7 @@ const SuppliesPage: React.FC = () => {
                   Добавить поставку
                 </p>
               </Link>
-              <Search />
+              <Search onSearchClear={handleSearchClear} />
             </div>
           </div>
           <SupplyCard currentPage={currentPage} onPageChange={setCurrentPage} />
@@ -78,6 +82,7 @@ const SuppliesPage: React.FC = () => {
       <Pagination
         pageCount={Math.ceil(supplies.length / 9)}
         onChange={handlePageChange}
+        currentPage={currentPage}
       />
       <Outlet />
     </div>

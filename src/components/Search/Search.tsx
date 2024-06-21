@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./Search.module.css";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   setSearchType,
   setSearchInput,
@@ -9,8 +8,9 @@ import {
   selectSearchInput,
 } from "../../store/features/searchSlice";
 import CustomOptions from "../CustomOptions/CustomOptions";
+import { SearchProps } from "../../store/interfaces";
 
-const Search: React.FC = () => {
+const Search: React.FC<SearchProps> = ({ onSearchClear }) => {
   const dispatch = useDispatch();
   const wrapperRef = useRef(null);
 
@@ -25,7 +25,7 @@ const Search: React.FC = () => {
     { value: "По статусу", label: "По статусу" },
   ];
 
-  //закрытие выпадающего списка при клике по эрану
+  // Закрытие выпадающего списка при клике по экрану
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -45,6 +45,9 @@ const Search: React.FC = () => {
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const filterValue = e.target.value;
     dispatch(setSearchInput(filterValue));
+    if (filterValue.trim() === "") {
+      onSearchClear();
+    }
   };
 
   const handleOptionChange = (value: string) => {

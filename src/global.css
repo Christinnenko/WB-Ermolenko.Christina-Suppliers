@@ -18,20 +18,6 @@
   font-style: normal;
 }
 
-@font-face {
-  font-family: "ALSHauss Medium";
-  src: url("../public/fonts/ALSHauss-Medium.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "ALSHauss Light";
-  src: url("../public/fonts/ALSHauss-Light.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
 body {
   font-family: "ALSHauss", sans-serif;
   letter-spacing: 0.2px;

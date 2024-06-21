@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import "./Pagination.css";
 import arrowHorizontLeft from "../../../src/icons/arrow-horisont-left.svg";
 import arrowHorizontRight from "../../../src/icons/arrow-horisont-right.svg";
 import { PaginationProps } from "../../store/interfaces";
 
-const Pagination: React.FC<PaginationProps> = ({ pageCount, onChange }) => {
-  const [currentPage, setCurrentPage] = useState(0);
+const Pagination: React.FC<PaginationProps> = ({
+  pageCount,
+  onChange,
+  currentPage,
+}) => {
+  const [page, setPage] = useState(currentPage);
+
+  useEffect(() => {
+    setPage(currentPage);
+  }, [currentPage]);
 
   const handlePageChange = ({ selected }: { selected: number }) => {
-    setCurrentPage(selected);
+    setPage(selected);
     onChange({ selected });
   };
 
@@ -19,10 +27,11 @@ const Pagination: React.FC<PaginationProps> = ({ pageCount, onChange }) => {
       onPageChange={handlePageChange}
       containerClassName="pagination"
       activeClassName="active"
+      forcePage={page}
       previousLabel={<img src={arrowHorizontLeft} alt="Назад" />}
       nextLabel={<img src={arrowHorizontRight} alt="Вперед" />}
-      previousClassName={`prev ${currentPage === 0 ? "hidden" : ""}`}
-      nextClassName={`next ${currentPage === pageCount - 1 ? "hidden" : ""}`}
+      previousClassName={`prev ${page === 0 ? "hidden" : ""}`}
+      nextClassName={`next ${page === pageCount - 1 ? "hidden" : ""}`}
       disabledClassName="hidden"
     />
   );
