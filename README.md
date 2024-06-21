@@ -1,10 +1,10 @@
 # Cервис "Поставок"
 
-## Списком поставок, с возможностью поиска, редактирования, удаления и добавления поставки
+## Список поставок, с возможностью поиска, редактирования, удаления и добавления поставки
 
 ## Технологии:
 
-React, Typescript, Redux RTK, CRA, date-fns, react-datepicker, react-paginate
+React, Typescript, React (CRA), Redux (RTK), RTK Query, date-fns, react-datepicker, react-paginate, Node.js, Express.js
 
 ## Для запуска:
 
