@@ -1,46 +1,58 @@
-# Getting Started with Create React App
+# Cервис "Поставок"
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Cервис "Поставок" - сервис со списком поставок, с возможностью поиска, редактирования, удаления и добавления поставки
 
-## Available Scripts
+## Технологии:
 
-In the project directory, you can run:
+React, Typescript, Redux RTK, CRA, date-fns, react-datepicker, react-paginate
 
-### `npm start`
+## Для запуска:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Перейдите в директорию `mock-server`:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+   ```sh
+   cd mock-server
+   ```
 
-### `npm test`
+2. Установите зависимости:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```sh
+   npm install
+   ```
 
-### `npm run build`
+3. Вернитесь в директорию `WB-Ermolenko.Christina-Suppliers`:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```sh
+   cd ..
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Установите зависимости:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   ```sh
+   npm install
+   ```
 
-### `npm run eject`
+5. Запустите сервер:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+   ```sh
+   npm run start
+   ```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   Сервер запускается по адресу `http://localhost:5001`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+   Данные доступны по адресам:
+   http://localhost:5001/api/supplies
+   http://localhost:5001/api/cities
+   http://localhost:5001/api/statuses
+   http://localhost:5001/api/supplyTypes
+   http://localhost:5001/api/warehouses
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+6. Откройте второй терминал и запустите приложение:
 
-## Learn More
+   ```sh
+   npm run start
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   Приложение будет запущено по адресу `http://localhost:3000`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+После запуска серверной и фронтенд частей, откройте браузер и перейдите по адресу `http://localhost:3000` и `http://localhost:5001` для использования приложения.
