@@ -17,6 +17,7 @@
   border-radius: 3px;
   padding: 6px 12px;
   box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 
 .pagination li.active a:hover {
@@ -37,10 +38,4 @@
 
 .hidden {
   visibility: hidden;
-}
-
-@media (min-width: 375px) and (max-width: 767px) {
-  .pagination {
-    margin-top: 210px;
-  }
 }

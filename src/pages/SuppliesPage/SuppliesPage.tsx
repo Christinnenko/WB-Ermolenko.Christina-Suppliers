@@ -73,13 +73,12 @@ const SuppliesPage: React.FC = () => {
             </div>
           </div>
           <SupplyCard currentPage={currentPage} onPageChange={setCurrentPage} />
-          <Pagination
-            pageCount={Math.ceil(supplies.length / 9)}
-            onChange={handlePageChange}
-          />
         </div>
       </div>
-
+      <Pagination
+        pageCount={Math.ceil(supplies.length / 9)}
+        onChange={handlePageChange}
+      />
       <Outlet />
     </div>
   );

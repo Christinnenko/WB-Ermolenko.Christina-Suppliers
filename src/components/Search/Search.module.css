@@ -4,6 +4,7 @@
   border-radius: 14px;
   padding: 4px;
   margin-top: -6px;
+  transition: all 0.3s ease;
 }
 
 .search__selectWrapper {
@@ -11,6 +12,12 @@
   background-color: var(--color-dark);
   border-radius: 10px;
   padding: 9px 11px 5px 8px;
+  transition: all 0.3s ease;
+}
+
+.search:hover,
+.search__selectWrapper:hover {
+  background-color: rgb(225, 225, 225, 0.24);
 }
 
 .search__select,
@@ -26,6 +33,13 @@
   appearance: none;
   background: url("../../icons/arrow-vertical.svg") no-repeat;
   background-position: right center;
+  width: 115px;
+}
+
+.search__selectOpen {
+  appearance: none;
+  background: url("../../icons/arrow-vertical-up.svg") no-repeat;
+  background-position: right bottom 8px;
   width: 115px;
 }
 

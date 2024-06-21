@@ -45,6 +45,7 @@
   padding: 8px 8px 4px 8px;
   margin-bottom: 4px;
   cursor: default;
+  transition: all 0.3s ease;
 }
 
 .suppliesPage__adding:hover {
@@ -142,6 +143,7 @@
 
   .suppliesPage__title {
     line-height: 40px;
+    transition: all 0.3s ease;
   }
 
   .suppliesPage__adding:hover {

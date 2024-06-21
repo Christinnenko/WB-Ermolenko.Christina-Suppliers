@@ -56,7 +56,9 @@ const Search: React.FC = () => {
     <div className={styles.search}>
       <div ref={wrapperRef} className={styles.search__selectWrapper}>
         <div
-          className={styles.search__select}
+          className={`${styles.search__select} ${
+            isOpen ? styles.search__selectOpen : ""
+          }`}
           onClick={() => setIsOpen(!isOpen)}
         >
           <div className={styles.search__selectType}>{typeSearch}</div>

@@ -1,0 +1,23 @@
+.notFound__wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 30px;
+}
+
+.notFound__button {
+  display: flex;
+  border-radius: 10px;
+  padding: 8px;
+  background-color: var(--color-light);
+  border: none;
+  color: var(--color-dark);
+  transition: all 0.3s ease;
+}
+
+.notFound__button:hover {
+  background-color: #4649e5;
+}

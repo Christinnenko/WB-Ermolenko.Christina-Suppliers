@@ -113,6 +113,7 @@
   padding: 14px 16px 16px 16px;
   border-radius: 10px;
   background-color: var(--color-transparent);
+  transition: all 0.3s ease;
 }
 
 .addSupplyModal__inputContainer {
@@ -129,6 +130,23 @@
   color: var(--color-light);
   background-color: var(--color-transparent);
   width: 100%;
+  cursor: default;
+  transition: all 0.3s ease;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.addSupplyModal__select:hover,
+.addSupplyModal__input:hover {
+  background-color: rgb(225, 225, 225, 0.24);
 }
 
 .addSupplyModal__input[type="number"]::-webkit-outer-spin-button,
@@ -147,8 +165,8 @@
   gap: 22px;
 }
 
-.addSupplyModal__btnSave {
-  background-color: #4649e5;
+.addSupplyModal__btnSave,
+.addSupplyModal__btnCancel {
   color: var(--color-light);
   border-radius: 10px;
   border: none;
@@ -156,11 +174,22 @@
   font-size: 16px;
 }
 
+.addSupplyModal__btnSave {
+  background-color: #4649e5;
+}
+
+.addSupplyModal__btnSave:hover {
+  background-color: #6366f1;
+  transition: all 0.3s ease;
+}
+
 .addSupplyModal__btnCancel {
-  color: var(--color-light);
-  border: none;
-  background-color: inherit;
-  font-size: 16px;
+  background-color: transparent;
+}
+
+.addSupplyModal__btnCancel:hover {
+  background-color: rgb(225, 225, 225, 0.08);
+  transition: all 0.3s ease;
 }
 
 .addSupplyModal__inputError {
