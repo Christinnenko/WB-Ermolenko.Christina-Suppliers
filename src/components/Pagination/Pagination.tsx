@@ -23,7 +23,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <ReactPaginate
-      pageCount={pageCount}
+      pageCount={pageCount > 0 ? pageCount : 1}
       onPageChange={handlePageChange}
       containerClassName="pagination"
       activeClassName="active"
